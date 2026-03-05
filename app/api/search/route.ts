@@ -7,6 +7,8 @@ import { isEthAddress, isSolMint } from "@/lib/validation";
 
 const SEARCH_TTL_SECONDS = 15 * 60;
 
+type ChainFilter = "eth" | "sol";
+
 function dedupeCandidates(items: Candidate[]) {
   const seen = new Set<string>();
   return items.filter((item) => {
@@ -17,11 +19,18 @@ function dedupeCandidates(items: Candidate[]) {
   });
 }
 
+function parseChainFilter(value: string | null): ChainFilter | null {
+  if (value === "eth" || value === "sol") return value;
+  return null;
+}
+
 export async function GET(req: NextRequest) {
   const blocked = await enforceRateLimit(req);
   if (blocked) return blocked;
 
   const q = req.nextUrl.searchParams.get("q")?.trim() ?? "";
+  const chain = parseChainFilter(req.nextUrl.searchParams.get("chain"));
+
   if (!q) {
     return NextResponse.json({ candidates: [] as Candidate[] });
   }
@@ -51,14 +60,16 @@ export async function GET(req: NextRequest) {
     });
   }
 
-  const cacheKey = `search:${q.toLowerCase()}`;
+  const cacheKey = `search:${q.toLowerCase()}:${chain ?? "auto"}`;
   const cached = await getCachedJson<{ candidates: Candidate[] }>(cacheKey);
   if (cached) {
     return NextResponse.json(cached);
   }
 
   try {
-    const candidates = dedupeCandidates(await candidatesFromCoinGecko(q));
+    const raw = await candidatesFromCoinGecko(q);
+    const filtered = chain ? raw.filter((c) => c.chain === chain) : raw;
+    const candidates = dedupeCandidates(filtered);
     const payload = { candidates };
     await setCachedJson(cacheKey, payload, SEARCH_TTL_SECONDS);
     return NextResponse.json(payload);

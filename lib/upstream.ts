@@ -5,6 +5,43 @@ const rugcheckBase = process.env.RUGCHECK_BASE_URL ?? "https://api.rugcheck.xyz"
 const honeypotBase = process.env.HONEYPOT_BASE_URL ?? "https://api.honeypot.is";
 const etherscanApiKey = process.env.ETHERSCAN_API_KEY;
 
+type CoinSearchItem = {
+  id: string;
+  name: string;
+  symbol: string;
+  thumb?: string;
+  market_cap_rank?: number;
+};
+
+function norm(value: string): string {
+  return value.trim().toLowerCase();
+}
+
+function rankCoins(query: string, coins: CoinSearchItem[]): CoinSearchItem[] {
+  const q = norm(query);
+
+  function score(coin: CoinSearchItem): number {
+    const name = norm(coin.name);
+    const symbol = norm(coin.symbol);
+
+    let s = 0;
+    if (symbol === q) s += 120;
+    else if (name === q) s += 110;
+    else if (symbol.startsWith(q)) s += 95;
+    else if (name.startsWith(q)) s += 85;
+    else if (symbol.includes(q)) s += 70;
+    else if (name.includes(q)) s += 60;
+
+    if (typeof coin.market_cap_rank === "number" && coin.market_cap_rank > 0) {
+      s += Math.max(0, 30 - Math.min(coin.market_cap_rank, 30));
+    }
+
+    return s;
+  }
+
+  return [...coins].sort((a, b) => score(b) - score(a));
+}
+
 export async function searchCoinGecko(query: string) {
   const res = await fetch(
     `${coingeckoBase}/search?query=${encodeURIComponent(query)}`,
@@ -14,7 +51,7 @@ export async function searchCoinGecko(query: string) {
     throw new Error(`CoinGecko search failed: ${res.status}`);
   }
   return res.json() as Promise<{
-    coins: Array<{ id: string; name: string; symbol: string; thumb?: string }>;
+    coins: CoinSearchItem[];
   }>;
 }
 
@@ -41,39 +78,51 @@ export async function candidatesFromCoinGecko(
   query: string
 ): Promise<Candidate[]> {
   const search = await searchCoinGecko(query);
-  const topCoins = search.coins.slice(0, 8);
-  const detailResults = await Promise.allSettled(
-    topCoins.map((coin) => coinGeckoCoin(coin.id))
-  );
+  const ranked = rankCoins(query, search.coins);
+  const firstPass = ranked.slice(0, 12);
+  const secondPass = ranked.slice(12, 24);
 
   const out: Candidate[] = [];
-  for (const result of detailResults) {
-    if (result.status !== "fulfilled") continue;
-    const coin = result.value;
-    const platforms = coin.platforms ?? {};
-    const ethAddress = platforms.ethereum;
-    const solMint = platforms.solana;
-    if (ethAddress) {
-      out.push({
-        chain: "eth",
-        name: coin.name,
-        symbol: coin.symbol?.toUpperCase() ?? "",
-        address: ethAddress,
-        thumb: coin.image?.thumb,
-        coingeckoId: coin.id,
-      });
-    }
-    if (solMint) {
-      out.push({
-        chain: "sol",
-        name: coin.name,
-        symbol: coin.symbol?.toUpperCase() ?? "",
-        address: solMint,
-        thumb: coin.image?.thumb,
-        coingeckoId: coin.id,
-      });
+
+  async function collectFromBatch(batch: CoinSearchItem[]) {
+    const detailResults = await Promise.allSettled(
+      batch.map((coin) => coinGeckoCoin(coin.id))
+    );
+
+    for (const result of detailResults) {
+      if (result.status !== "fulfilled") continue;
+      const coin = result.value;
+      const platforms = coin.platforms ?? {};
+      const ethAddress = platforms.ethereum;
+      const solMint = platforms.solana;
+      if (ethAddress) {
+        out.push({
+          chain: "eth",
+          name: coin.name,
+          symbol: coin.symbol?.toUpperCase() ?? "",
+          address: ethAddress,
+          thumb: coin.image?.thumb,
+          coingeckoId: coin.id,
+        });
+      }
+      if (solMint) {
+        out.push({
+          chain: "sol",
+          name: coin.name,
+          symbol: coin.symbol?.toUpperCase() ?? "",
+          address: solMint,
+          thumb: coin.image?.thumb,
+          coingeckoId: coin.id,
+        });
+      }
     }
   }
+
+  await collectFromBatch(firstPass);
+  if (out.length === 0 && secondPass.length > 0) {
+    await collectFromBatch(secondPass);
+  }
+
   return out;
 }
 

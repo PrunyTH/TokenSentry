@@ -29,11 +29,11 @@ export function InputForm() {
       return;
     }
     if (chain === "eth" && !isEthAddress(value)) {
-      router.push(`/search?q=${encodeURIComponent(value)}`);
+      router.push(`/search?q=${encodeURIComponent(value)}&chain=eth`);
       return;
     }
     if (chain === "sol" && !isSolMint(value)) {
-      router.push(`/search?q=${encodeURIComponent(value)}`);
+      router.push(`/search?q=${encodeURIComponent(value)}&chain=sol`);
       return;
     }
 

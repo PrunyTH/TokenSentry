@@ -4,7 +4,13 @@ import { useEffect, useState } from "react";
 import { Candidate } from "@/lib/types";
 import { TokenCard } from "@/components/TokenCard";
 
-export function SearchResults({ query }: { query: string }) {
+export function SearchResults({
+  query,
+  chainFilter,
+}: {
+  query: string;
+  chainFilter?: "eth" | "sol";
+}) {
   const [items, setItems] = useState<Candidate[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -14,7 +20,9 @@ export function SearchResults({ query }: { query: string }) {
       setLoading(true);
       setError(null);
       try {
-        const res = await fetch(`/api/search?q=${encodeURIComponent(query)}`);
+        const params = new URLSearchParams({ q: query });
+        if (chainFilter) params.set("chain", chainFilter);
+        const res = await fetch(`/api/search?${params.toString()}`);
         const data = await res.json();
         if (!res.ok) {
           setError(data?.error ?? "Search failed");
@@ -28,7 +36,7 @@ export function SearchResults({ query }: { query: string }) {
       }
     }
     run();
-  }, [query]);
+  }, [query, chainFilter]);
 
   if (loading) return <p className="text-slate-300">Searching...</p>;
   if (error) return <p className="text-red-400">{error}</p>;
