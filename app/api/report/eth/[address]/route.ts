@@ -9,12 +9,13 @@ const REPORT_TTL_SECONDS = 60 * 60;
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { address: string } }
+  { params }: { params: Promise<{ address: string }> }
 ) {
   const blocked = await enforceRateLimit(req);
   if (blocked) return blocked;
 
-  const address = params.address?.trim();
+  const { address: rawAddress } = await params;
+  const address = rawAddress?.trim();
   if (!isEthAddress(address)) {
     return NextResponse.json({ error: "Invalid Ethereum address." }, { status: 400 });
   }

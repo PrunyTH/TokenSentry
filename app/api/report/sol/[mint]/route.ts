@@ -9,12 +9,13 @@ const REPORT_TTL_SECONDS = 60 * 60;
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: { mint: string } }
+  { params }: { params: Promise<{ mint: string }> }
 ) {
   const blocked = await enforceRateLimit(req);
   if (blocked) return blocked;
 
-  const mint = params.mint?.trim();
+  const { mint: rawMint } = await params;
+  const mint = rawMint?.trim();
   if (!isSolMint(mint)) {
     return NextResponse.json({ error: "Invalid Solana mint address." }, { status: 400 });
   }
