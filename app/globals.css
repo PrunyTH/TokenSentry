@@ -196,7 +196,12 @@ a {
     transparent
   );
   transform: rotate(9deg);
-  opacity: 0;
+  opacity: 0.15;
+  animation: logo-shimmer 5.4s ease-in-out infinite;
+}
+
+.main-logo {
+  animation: logo-pulse 5.4s ease-in-out infinite;
 }
 
 .group:hover .main-logo {
@@ -206,16 +211,31 @@ a {
 }
 
 .group:hover .main-logo-wrap::after {
-  animation: logo-shimmer 1.45s ease;
-  opacity: 1;
+  opacity: 0.85;
 }
 
 @keyframes logo-shimmer {
-  from {
+  0%,
+  58%,
+  100% {
     transform: translateX(-120%) rotate(9deg);
+    opacity: 0;
   }
-  to {
+  72% {
     transform: translateX(430%) rotate(9deg);
+    opacity: 0.9;
+  }
+}
+
+@keyframes logo-pulse {
+  0%,
+  58%,
+  100% {
+    filter: drop-shadow(0 0 8px rgba(216, 173, 96, 0.26));
+  }
+  72% {
+    filter: drop-shadow(0 0 14px rgba(216, 173, 96, 0.45))
+      drop-shadow(0 0 10px rgba(0, 191, 255, 0.2));
   }
 }
 
@@ -230,6 +250,12 @@ a {
   }
   .main-logo {
     transition: none;
+    animation: none;
+    filter: drop-shadow(0 0 8px rgba(216, 173, 96, 0.26));
+  }
+  .main-logo-wrap::after {
+    animation: none;
+    opacity: 0;
   }
   .hero-bg-image,
   .hero-bg-glow,

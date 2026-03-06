@@ -41,6 +41,7 @@ export default function RootLayout({
               </span>
             </a>
             <nav className="flex gap-4 text-sm font-medium text-slate-300 md:gap-6">
+              <a href="/">Home</a>
               <a href="/about">About</a>
               <a href="/methodology">Methodology</a>
               <a href="/privacy">Privacy</a>
