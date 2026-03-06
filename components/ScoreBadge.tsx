@@ -14,11 +14,14 @@ export function ScoreBadge({
   category: RiskReport["category"];
 }) {
   return (
-    <div
-      className={`inline-flex items-center gap-3 rounded-lg border px-4 py-2 ${categoryStyles[category]}`}
-    >
-      <span className="text-2xl font-bold">{score}</span>
-      <span className="text-sm font-semibold uppercase">{category} Risk</span>
+    <div className={`panel inline-flex items-center gap-4 rounded-xl border px-4 py-3 ${categoryStyles[category]}`}>
+      <div>
+        <p className="text-xs uppercase tracking-wide text-slate-300">Risk Score</p>
+        <span className="text-3xl font-extrabold">{score}</span>
+      </div>
+      <span className="rounded-full border border-current/50 px-3 py-1 text-xs font-semibold uppercase tracking-wide">
+        {category} Risk
+      </span>
     </div>
   );
 }

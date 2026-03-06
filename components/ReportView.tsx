@@ -37,11 +37,9 @@ export function ReportView({ chain, id }: Props) {
     run();
   }, [chain, id]);
 
-  if (loading) {
-    return <p className="text-slate-300">Loading report...</p>;
-  }
+  if (loading) return <p className="text-slate-300">Loading report...</p>;
   if (error) {
-    return <p className="text-red-400">{error}</p>;
+    return <p className="panel rounded-xl p-4 text-red-300">{error}</p>;
   }
   if (!report) {
     return <p className="text-slate-300">No report available.</p>;
@@ -53,7 +51,7 @@ export function ReportView({ chain, id }: Props) {
 
   return (
     <div className="space-y-6">
-      <div>
+      <div className="panel rounded-2xl p-5">
         <h1 className="text-3xl font-bold text-white">{tokenTitle}</h1>
         <p className="mt-1 text-sm text-slate-400">
           Generated: {new Date(report.generatedAt).toLocaleString()}
@@ -62,14 +60,14 @@ export function ReportView({ chain, id }: Props) {
 
       <ScoreBadge score={report.score} category={report.category} />
 
-      <section>
+      <section className="panel rounded-2xl p-5">
         <h2 className="mb-3 text-xl font-semibold text-white">Evidence</h2>
         <EvidenceList evidence={report.evidence} />
       </section>
 
       <ScoreDetails evidence={report.evidence} />
 
-      <section className="space-y-2">
+      <section className="panel space-y-2 rounded-2xl p-5">
         <h3 className="text-lg font-semibold text-white">External links</h3>
         <ul className="list-inside list-disc text-sm text-slate-300">
           {report.links.map((link) => (

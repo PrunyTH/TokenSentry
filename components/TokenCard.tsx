@@ -9,7 +9,7 @@ export function TokenCard({ candidate }: { candidate: Candidate }) {
   return (
     <a
       href={href}
-      className="block rounded-lg border border-slate-800 bg-slate-900 p-4 transition hover:border-cyan-500"
+      className="panel block rounded-xl p-4 transition hover:border-amber-400/65"
     >
       <div className="flex items-center gap-3">
         {candidate.thumb ? (
@@ -28,7 +28,7 @@ export function TokenCard({ candidate }: { candidate: Candidate }) {
           </p>
           <p className="truncate text-xs text-slate-400">{candidate.address}</p>
         </div>
-        <span className="ml-auto rounded bg-slate-800 px-2 py-1 text-xs uppercase text-slate-300">
+        <span className="ml-auto rounded-full border border-slate-600 bg-slate-900/70 px-2 py-1 text-xs uppercase text-slate-300">
           {candidate.chain}
         </span>
       </div>

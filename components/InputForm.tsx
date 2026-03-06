@@ -4,6 +4,9 @@ import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ChainAuto } from "@/lib/types";
 import { isEthAddress, isSolMint } from "@/lib/validation";
+import { Button } from "@/components/ui/Button";
+import { Input } from "@/components/ui/Input";
+import { Badge } from "@/components/ui/Badge";
 
 export function InputForm() {
   const router = useRouter();
@@ -49,41 +52,37 @@ export function InputForm() {
   }
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="rounded-xl border border-slate-800 bg-slate-900 p-4 shadow-lg"
-    >
-      <label htmlFor="token-input" className="mb-2 block text-sm text-slate-300">
-        Token name or address
-      </label>
+    <form onSubmit={handleSubmit} className="panel rounded-2xl p-5 shadow-xl">
+      <div className="mb-2 flex flex-wrap items-center gap-2">
+        <label htmlFor="token-input" className="text-sm font-medium text-slate-200">
+          Token name or contract address
+        </label>
+        <Badge>Live Analysis</Badge>
+      </div>
       <div className="flex flex-col gap-3 md:flex-row">
-        <input
+        <Input
           id="token-input"
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="e.g. PEPE or 0x... or Solana mint"
-          className="w-full rounded-md border border-slate-700 bg-slate-950 px-3 py-2 text-white outline-none focus:border-cyan-500"
+          placeholder="e.g. PEPE, 0x..., or Solana mint"
         />
         <select
           value={chain}
           onChange={(e) => setChain(e.target.value as ChainAuto)}
-          className="rounded-md border border-slate-700 bg-slate-950 px-3 py-2 text-white"
+          className="rounded-xl border border-slate-700 bg-slate-950/80 px-3 py-2 text-white outline-none focus:border-amber-400"
         >
           <option value="auto">Auto</option>
           <option value="eth">Ethereum</option>
           <option value="sol">Solana</option>
         </select>
-        <button
-          type="submit"
-          className="rounded-md bg-cyan-500 px-4 py-2 font-semibold text-slate-950 hover:bg-cyan-400"
-        >
-          Check Risk
-        </button>
+        <Button type="submit">Analyze Token</Button>
       </div>
       {error ? <p className="mt-2 text-sm text-red-400">{error}</p> : null}
-      <p className="mt-3 text-xs text-slate-400">
-        TokenSentry provides educational risk heuristics only, not trading advice.
-      </p>
+      <div className="mt-4 flex flex-wrap gap-2 text-xs text-slate-400">
+        <span className="rounded-full border border-slate-700 px-2 py-1">Ethereum</span>
+        <span className="rounded-full border border-slate-700 px-2 py-1">Solana</span>
+        <span className="rounded-full border border-slate-700 px-2 py-1">BNB (soon)</span>
+      </div>
     </form>
   );
 }

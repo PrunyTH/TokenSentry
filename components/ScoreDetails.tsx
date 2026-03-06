@@ -2,7 +2,7 @@ import { EvidenceItem } from "@/lib/types";
 
 export function ScoreDetails({ evidence }: { evidence: EvidenceItem[] }) {
   return (
-    <details className="rounded-lg border border-slate-800 bg-slate-900 p-4">
+    <details className="panel rounded-xl p-4">
       <summary className="cursor-pointer font-semibold text-white">
         How we scored this
       </summary>
