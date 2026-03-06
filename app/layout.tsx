@@ -37,7 +37,7 @@ export default function RootLayout({
             <a href="/" className="group flex items-center gap-3 text-xl font-bold text-white">
               <span className="main-logo-wrap">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/branding/tokensentry-logo.png" alt="TokenSentry logo" className="main-logo h-11 w-auto md:h-12" />
+                <img src="/branding/tokensentry-logo.png" alt="TokenSentry logo" className="main-logo h-12 w-auto md:h-14" />
               </span>
             </a>
             <nav className="flex gap-4 text-sm font-medium text-slate-300 md:gap-6">

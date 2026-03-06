@@ -53,12 +53,13 @@ body::after {
   inset: 0;
   pointer-events: none;
   background:
-    radial-gradient(circle at 12% 28%, rgba(247, 147, 26, 0.22) 0 34px, transparent 35px),
-    radial-gradient(circle at 85% 64%, rgba(247, 147, 26, 0.20) 0 28px, transparent 29px),
-    radial-gradient(circle at 52% 18%, rgba(247, 147, 26, 0.16) 0 24px, transparent 25px),
-    radial-gradient(circle at 28% 78%, rgba(247, 147, 26, 0.18) 0 30px, transparent 31px),
-    radial-gradient(circle at 76% 24%, rgba(251, 191, 36, 0.12) 0 22px, transparent 23px);
-  filter: blur(0.2px);
+    linear-gradient(rgba(8, 8, 10, 0.15), rgba(8, 8, 10, 0.15)),
+    url("/branding/crypto-bg.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.5;
+  mix-blend-mode: screen;
   z-index: -1;
 }
 
