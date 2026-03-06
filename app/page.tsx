@@ -1,15 +1,12 @@
 import { InputForm } from "@/components/InputForm";
 import { HomeMarketPrices } from "@/components/HomeMarketPrices";
-import { AnimatedHeroBackground } from "@/components/hero/AnimatedHeroBackground";
 import { Card } from "@/components/ui/Card";
 
 export default function HomePage() {
   return (
     <div className="space-y-10">
-      <section className="grid gap-6 lg:grid-cols-[1.3fr_0.7fr]">
-        <div className="relative isolate overflow-hidden rounded-3xl">
-          <AnimatedHeroBackground />
-          <div className="relative z-10 px-3 py-5 md:px-5 md:py-10">
+      <section className="grid w-full gap-6 md:grid-cols-[minmax(0,1fr)_330px] xl:grid-cols-[minmax(0,1fr)_380px]">
+        <div className="relative rounded-3xl border border-amber-200/20 bg-black/20 px-3 py-5 md:px-5 md:py-10">
           <div>
           <h1 className="max-w-5xl whitespace-nowrap text-[2rem] font-extrabold leading-tight text-white md:text-[3.4rem]">
             On-Chain Crypto Risk Intelligence
@@ -23,9 +20,8 @@ export default function HomePage() {
             <InputForm />
           </div>
           </div>
-          </div>
         </div>
-        <div className="lg:pt-3">
+        <div className="md:pt-2">
           <HomeMarketPrices />
         </div>
       </section>
