@@ -58,9 +58,20 @@ export function HomeMarketPrices() {
       <p className="mt-1 text-sm text-slate-400">BTC, ETH, SOL, BNB spot prices</p>
       <div className="mt-4 space-y-2">
         {(data?.prices ?? []).map((p) => (
-          <div
+          <a
             key={p.symbol}
-            className="flex items-center justify-between rounded-xl border border-slate-600/50 bg-slate-900/45 px-3 py-2"
+            href={
+              p.symbol === "BTC"
+                ? "https://www.coingecko.com/en/coins/bitcoin"
+                : p.symbol === "ETH"
+                  ? "https://www.coingecko.com/en/coins/ethereum"
+                  : p.symbol === "SOL"
+                    ? "https://www.coingecko.com/en/coins/solana"
+                    : "https://www.coingecko.com/en/coins/bnb"
+            }
+            target="_blank"
+            rel="noreferrer"
+            className="flex items-center justify-between rounded-xl border border-slate-600/50 bg-slate-900/45 px-3 py-2 transition hover:border-sky-300/55 hover:bg-slate-800/65"
           >
             <span className="font-semibold text-slate-100">{p.symbol}</span>
             <div className="text-right">
@@ -72,7 +83,7 @@ export function HomeMarketPrices() {
                 </p>
               ) : null}
             </div>
-          </div>
+          </a>
         ))}
         {error ? <p className="text-xs text-amber-200">{error}</p> : null}
       </div>
