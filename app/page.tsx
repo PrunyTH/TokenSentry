@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/Badge";
 export default function HomePage() {
   return (
     <div className="space-y-10">
-      <section className="panel rounded-3xl px-6 py-8 md:px-10 md:py-12">
+      <section className="px-2 py-4 md:px-4 md:py-8">
         <Badge>Crypto Security Intelligence</Badge>
         <h1 className="mt-4 max-w-4xl text-4xl font-extrabold leading-tight text-white md:text-6xl">
           Detect Rug Pulls Before They Happen
@@ -17,11 +17,6 @@ export default function HomePage() {
         </p>
         <div className="mt-6">
           <InputForm />
-        </div>
-        <div className="mt-4 flex flex-wrap gap-2 text-xs text-slate-300">
-          <span className="rounded-full border border-slate-700 px-2 py-1">Ethereum</span>
-          <span className="rounded-full border border-slate-700 px-2 py-1">Solana</span>
-          <span className="rounded-full border border-slate-700 px-2 py-1">BNB (Soon)</span>
         </div>
       </section>
 

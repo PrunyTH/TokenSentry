@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { BrandLogo } from "@/components/BrandLogo";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -7,7 +6,7 @@ export const metadata: Metadata = {
   description:
     "TokenSentry provides educational token risk checks for Ethereum and Solana using transparent heuristics.",
   icons: {
-    icon: "/icon.svg",
+    icon: "/icon.png",
   },
 };
 
@@ -20,7 +19,10 @@ export default function RootLayout({
         <header className="border-b border-slate-800/70 bg-slate-950/45 backdrop-blur-md">
           <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
             <a href="/" className="group flex items-center gap-3 text-xl font-bold text-white">
-              <BrandLogo className="text-lg md:text-xl" />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/icon.png" alt="TokenSentry coin favicon" className="h-9 w-9 rounded-full" />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/brand-logo.png" alt="TokenSentry logo" className="h-10 w-auto md:h-12" />
             </a>
             <nav className="flex gap-4 text-sm text-slate-300">
               <a href="/about">About</a>

@@ -52,7 +52,7 @@ export function InputForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="panel rounded-2xl p-5 shadow-xl">
+    <form onSubmit={handleSubmit} className="rounded-2xl border border-amber-400/20 bg-transparent p-3 md:p-4">
       <div className="mb-2 flex flex-wrap items-center gap-2">
         <label htmlFor="token-input" className="text-sm font-medium text-slate-200">
           Token name or contract address
@@ -78,7 +78,7 @@ export function InputForm() {
         <Button type="submit">Analyze Token</Button>
       </div>
       {error ? <p className="mt-2 text-sm text-red-400">{error}</p> : null}
-      <div className="mt-4 flex flex-wrap gap-2 text-xs text-slate-400">
+      <div className="mt-4 flex flex-wrap gap-2 text-xs text-slate-300">
         <span className="rounded-full border border-slate-700 px-2 py-1">Ethereum</span>
         <span className="rounded-full border border-slate-700 px-2 py-1">Solana</span>
         <span className="rounded-full border border-slate-700 px-2 py-1">BNB (soon)</span>
