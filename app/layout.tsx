@@ -6,7 +6,8 @@ export const metadata: Metadata = {
   description:
     "TokenSentry provides educational token risk checks for Ethereum and Solana using transparent heuristics.",
   icons: {
-    icon: "/icon.png",
+    icon: "/branding/tokensentry-appicon.png",
+    apple: "/branding/tokensentry-appicon.png",
   },
 };
 
@@ -20,9 +21,11 @@ export default function RootLayout({
           <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
             <a href="/" className="group flex items-center gap-3 text-xl font-bold text-white">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/icon.png" alt="TokenSentry coin favicon" className="h-9 w-9 rounded-full" />
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/brand-logo.png" alt="TokenSentry logo" className="h-10 w-auto md:h-12" />
+              <img src="/branding/tokensentry-appicon.png" alt="TokenSentry app icon" className="h-9 w-9 rounded-full" />
+              <span className="main-logo-wrap">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/branding/tokensentry-logo.png" alt="TokenSentry logo" className="main-logo h-10 w-auto md:h-12" />
+              </span>
             </a>
             <nav className="flex gap-4 text-sm text-slate-300">
               <a href="/about">About</a>

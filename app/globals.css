@@ -65,68 +65,56 @@ a {
   backdrop-filter: blur(8px);
 }
 
-.brand-logo {
-  letter-spacing: 0.03em;
-}
-
-.brand-word {
-  font-weight: 800;
-  color: #f1f5f9;
-}
-
-.brand-sentry {
-  color: #00bfff;
-  margin-left: 0.22rem;
-}
-
-.brand-coin {
+.main-logo-wrap {
   position: relative;
-  display: inline-flex;
-  height: 1.15em;
-  width: 1.15em;
-  margin: 0 0.04em;
-  align-items: center;
-  justify-content: center;
-  border-radius: 9999px;
-  background: radial-gradient(circle at 25% 25%, #fde68a 0%, #fbbf24 45%, #b45309 100%);
-  box-shadow: 0 0 0 1px rgba(251, 191, 36, 0.35), 0 0 14px rgba(247, 147, 26, 0.28);
+  display: inline-block;
+  border-radius: 0.75rem;
   overflow: hidden;
-  transform: translateY(0.04em);
 }
 
-.brand-coin-inner {
-  font-size: 0.68em;
-  line-height: 1;
-  font-weight: 900;
-  color: rgba(120, 53, 15, 0.92);
+.main-logo {
+  display: block;
+  object-fit: contain;
+  filter: drop-shadow(0 0 8px rgba(247, 147, 26, 0.2));
+  transition: filter 260ms ease, transform 260ms ease;
 }
 
-.brand-coin::after {
+.main-logo-wrap::after {
   content: "";
   position: absolute;
-  top: -120%;
-  left: -70%;
-  width: 45%;
-  height: 260%;
-  background: linear-gradient(115deg, transparent, rgba(255, 255, 255, 0.55), transparent);
-  transform: rotate(18deg);
+  top: -10%;
+  left: -40%;
+  width: 28%;
+  height: 130%;
+  background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+  transform: rotate(9deg);
   opacity: 0;
 }
 
-.brand-logo:hover .brand-coin::after {
-  animation: coin-shimmer 1.2s ease;
+.group:hover .main-logo {
+  filter: drop-shadow(0 0 12px rgba(247, 147, 26, 0.35)) drop-shadow(0 0 12px rgba(0, 191, 255, 0.22));
+}
+
+.group:hover .main-logo-wrap::after {
+  animation: logo-shimmer 1.2s ease;
   opacity: 1;
 }
 
-.brand-logo:hover .brand-coin {
-  box-shadow: 0 0 0 1px rgba(251, 191, 36, 0.55), 0 0 18px rgba(247, 147, 26, 0.36);
-}
-
-@keyframes coin-shimmer {
+@keyframes logo-shimmer {
   from {
-    transform: translateX(-90%) rotate(18deg);
+    transform: translateX(-120%) rotate(9deg);
   }
   to {
-    transform: translateX(340%) rotate(18deg);
+    transform: translateX(430%) rotate(9deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .group:hover .main-logo-wrap::after {
+    animation: none;
+    opacity: 0;
+  }
+  .main-logo {
+    transition: none;
   }
 }
