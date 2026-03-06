@@ -33,7 +33,7 @@ export default function RootLayout({
     <html lang="en" className={raleway.variable}>
       <body className="font-sans">
         <header className="border-b border-slate-700/45 bg-slate-950/35 backdrop-blur-md">
-          <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 md:py-4">
+          <div className="mx-auto flex w-full max-w-[1760px] items-center justify-between px-4 py-3 md:py-4">
             <a href="/" className="group flex items-center gap-3 text-xl font-bold text-white">
               <span className="main-logo-wrap">
                 {/* eslint-disable-next-line @next/next/no-img-element */}

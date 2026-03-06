@@ -37,25 +37,7 @@ body::before {
   position: fixed;
   inset: 0;
   pointer-events: none;
-  background:
-    linear-gradient(
-      92deg,
-      transparent 38%,
-      rgba(255, 178, 84, 0.08) 52%,
-      rgba(255, 222, 149, 0.14) 60%,
-      rgba(255, 154, 67, 0.1) 66%,
-      transparent 78%
-    ),
-    radial-gradient(
-      520px 220px at 78% 50%,
-      rgba(255, 170, 74, 0.16) 0%,
-      rgba(255, 200, 118, 0.08) 36%,
-      transparent 78%
-    );
-  background-size: 220% 100%, 100% 100%;
-  background-position: -120% 0, center;
-  background-repeat: no-repeat;
-  animation: tail-sweep 6.4s ease-in-out infinite;
+  background: linear-gradient(rgba(4, 5, 7, 0.12), rgba(4, 5, 7, 0.12));
   z-index: -1;
 }
 
@@ -72,29 +54,6 @@ body::after {
   background-repeat: no-repeat;
   opacity: 0.88;
   z-index: -2;
-}
-
-@keyframes tail-sweep {
-  0%,
-  12% {
-    background-position: -130% 0, center;
-    opacity: 0;
-    filter: blur(8px);
-  }
-  28% {
-    opacity: 0.85;
-    filter: blur(5px);
-  }
-  56% {
-    background-position: 130% 0, center;
-    opacity: 0.55;
-    filter: blur(7px);
-  }
-  100% {
-    background-position: 130% 0, center;
-    opacity: 0;
-    filter: blur(8px);
-  }
 }
 
 body > * {
@@ -226,21 +185,28 @@ a {
   content: "";
   position: absolute;
   top: -10%;
-  left: -40%;
-  width: 28%;
+  left: -52%;
+  width: 32%;
   height: 130%;
-  background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+  background: linear-gradient(
+    105deg,
+    transparent,
+    rgba(255, 255, 255, 0.5),
+    rgba(255, 217, 148, 0.65),
+    transparent
+  );
   transform: rotate(9deg);
   opacity: 0;
 }
 
 .group:hover .main-logo {
-  filter: drop-shadow(0 0 12px rgba(216, 173, 96, 0.42))
-    drop-shadow(0 0 10px rgba(0, 191, 255, 0.2));
+  filter: drop-shadow(0 0 14px rgba(216, 173, 96, 0.52))
+    drop-shadow(0 0 12px rgba(0, 191, 255, 0.28));
+  transform: translateY(-1px) scale(1.01);
 }
 
 .group:hover .main-logo-wrap::after {
-  animation: logo-shimmer 1.2s ease;
+  animation: logo-shimmer 1.45s ease;
   opacity: 1;
 }
 
