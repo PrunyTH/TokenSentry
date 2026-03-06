@@ -14,11 +14,10 @@ type PriceResponse = {
 };
 
 function fmtUsd(v: number) {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
+  const n = new Intl.NumberFormat("en-US", {
     maximumFractionDigits: v >= 1000 ? 0 : 2,
   }).format(v);
+  return `US$${n}`;
 }
 
 export function HomeMarketPrices() {

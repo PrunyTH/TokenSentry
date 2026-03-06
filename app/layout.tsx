@@ -15,8 +15,8 @@ export const metadata: Metadata = {
     "TokenSentry provides educational token risk checks for Ethereum and Solana using transparent heuristics.",
   metadataBase: new URL("https://tokensentry.co"),
   icons: {
-    icon: "/branding/tokensentry-appicon.png",
-    apple: "/branding/tokensentry-appicon.png",
+    icon: "/tokensentry-appicon.png",
+    apple: "/tokensentry-appicon.png",
   },
   openGraph: {
     title: "TokenSentry - Crypto Token Risk Checker",
@@ -47,7 +47,7 @@ export default function RootLayout({
             </nav>
           </div>
         </header>
-        <main className="mx-auto w-full max-w-[1500px] px-4 py-8">{children}</main>
+        <main className="mx-auto w-full max-w-[1760px] px-4 py-8">{children}</main>
         <footer className="mt-10 border-t border-slate-800/70 bg-slate-950/30">
           <div className="mx-auto flex max-w-6xl flex-col gap-4 px-4 py-6 text-sm text-slate-400 md:flex-row md:items-center md:justify-between">
             <p>TokenSentry © {new Date().getFullYear()} - Security Intelligence for Crypto Tokens</p>
