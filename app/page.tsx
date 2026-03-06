@@ -1,20 +1,28 @@
 import { InputForm } from "@/components/InputForm";
+import { HomeMarketPrices } from "@/components/HomeMarketPrices";
+import { AnimatedHeroBackground } from "@/components/hero/AnimatedHeroBackground";
 import { Card } from "@/components/ui/Card";
 
 export default function HomePage() {
   return (
     <div className="space-y-10">
-      <section className="px-2 py-5 md:px-4 md:py-10">
-        <h1 className="max-w-4xl text-4xl font-extrabold leading-tight text-white md:text-6xl">
-          Detect Rug Pulls Before They Happen
-        </h1>
-        <p className="mt-5 max-w-3xl text-base text-slate-200 md:text-lg">
-          Instant on-chain risk analysis for crypto tokens. Scan contracts for
-          honeypot behavior, liquidity risks, ownership traps, and smart contract
-          red flags in seconds.
-        </p>
-        <div className="mt-8">
-          <InputForm />
+      <section className="relative isolate overflow-hidden rounded-3xl">
+        <AnimatedHeroBackground />
+        <div className="relative z-10 grid gap-6 px-3 py-5 md:px-5 md:py-10 lg:grid-cols-[1.3fr_0.7fr]">
+          <div>
+          <h1 className="max-w-5xl whitespace-nowrap text-[2rem] font-extrabold leading-tight text-white md:text-[3.4rem]">
+            On-Chain Crypto Risk Intelligence
+          </h1>
+          <p className="mt-5 max-w-3xl text-base text-slate-200 md:text-lg">
+            Instant on-chain risk analysis for crypto tokens. Scan contracts for
+            honeypot behavior, liquidity risks, ownership traps, and smart contract
+            red flags in seconds.
+          </p>
+          <div className="mt-8">
+            <InputForm />
+          </div>
+          </div>
+          <HomeMarketPrices />
         </div>
       </section>
 
