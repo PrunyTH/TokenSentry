@@ -38,18 +38,24 @@ body::before {
   inset: 0;
   pointer-events: none;
   background:
-    radial-gradient(
-      420px 220px at 14% 45%,
-      rgba(245, 168, 63, 0.26) 0%,
-      rgba(255, 195, 110, 0.12) 32%,
-      transparent 74%
+    linear-gradient(
+      92deg,
+      transparent 38%,
+      rgba(255, 178, 84, 0.08) 52%,
+      rgba(255, 222, 149, 0.14) 60%,
+      rgba(255, 154, 67, 0.1) 66%,
+      transparent 78%
     ),
     radial-gradient(
-      230px 120px at 20% 50%,
-      rgba(255, 215, 140, 0.22) 0%,
+      520px 220px at 78% 50%,
+      rgba(255, 170, 74, 0.16) 0%,
+      rgba(255, 200, 118, 0.08) 36%,
       transparent 78%
     );
-  animation: tail-shimmer 5.5s ease-in-out infinite;
+  background-size: 220% 100%, 100% 100%;
+  background-position: -120% 0, center;
+  background-repeat: no-repeat;
+  animation: tail-sweep 6.4s ease-in-out infinite;
   z-index: -1;
 }
 
@@ -59,28 +65,35 @@ body::after {
   inset: 0;
   pointer-events: none;
   background:
-    linear-gradient(rgba(6, 7, 10, 0.42), rgba(6, 7, 10, 0.42)),
-    url("/branding/tokensentry-background.png");
-  background-size: 80% auto;
+    linear-gradient(rgba(6, 7, 10, 0.22), rgba(6, 7, 10, 0.22)),
+    url("/branding/sentry%20bg%202.png");
+  background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
-  opacity: 0.64;
+  opacity: 0.88;
   z-index: -2;
 }
 
-@keyframes tail-shimmer {
+@keyframes tail-sweep {
   0%,
-  100% {
+  12% {
+    background-position: -130% 0, center;
+    opacity: 0;
+    filter: blur(8px);
+  }
+  28% {
+    opacity: 0.85;
+    filter: blur(5px);
+  }
+  56% {
+    background-position: 130% 0, center;
     opacity: 0.55;
-    filter: blur(6px);
-  }
-  45% {
-    opacity: 0.8;
-    filter: blur(4px);
-  }
-  70% {
-    opacity: 0.62;
     filter: blur(7px);
+  }
+  100% {
+    background-position: 130% 0, center;
+    opacity: 0;
+    filter: blur(8px);
   }
 }
 
@@ -262,12 +275,12 @@ a {
 
 @media (max-width: 1200px) {
   body::after {
-    background-size: 110% auto;
+    background-size: cover;
   }
 }
 
 @media (max-width: 768px) {
   body::after {
-    background-size: 150% auto;
+    background-size: cover;
   }
 }
