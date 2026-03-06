@@ -8,9 +8,9 @@ type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
 
 const styles: Record<Variant, string> = {
   primary:
-    "bg-gradient-to-r from-amber-400 to-orange-500 text-slate-950 shadow-[0_0_30px_rgba(247,147,26,0.28)] hover:brightness-105",
+    "bg-gradient-to-r from-[#E2C98D] to-[#D8AD60] text-slate-950 shadow-[0_0_24px_rgba(216,173,96,0.32)] hover:brightness-105",
   secondary:
-    "border border-slate-600 bg-slate-900/80 text-slate-100 hover:border-sky-400/70 hover:text-white",
+    "border border-slate-500/70 bg-slate-900/55 text-slate-100 hover:border-sky-400/70 hover:text-white",
   ghost: "text-slate-300 hover:text-white",
 };
 
@@ -22,4 +22,3 @@ export function Button({ variant = "primary", className = "", ...props }: Props)
     />
   );
 }
-

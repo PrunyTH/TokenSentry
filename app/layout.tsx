@@ -1,13 +1,28 @@
 import type { Metadata } from "next";
+import { Raleway } from "next/font/google";
 import "./globals.css";
+
+const raleway = Raleway({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+  variable: "--font-raleway",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "TokenSentry - Crypto Token Risk Checker",
   description:
     "TokenSentry provides educational token risk checks for Ethereum and Solana using transparent heuristics.",
+  metadataBase: new URL("https://tokensentry.co"),
   icons: {
     icon: "/branding/tokensentry-appicon.png",
     apple: "/branding/tokensentry-appicon.png",
+  },
+  openGraph: {
+    title: "TokenSentry - Crypto Token Risk Checker",
+    description:
+      "Educational crypto token risk checks for Ethereum and Solana with transparent heuristics.",
+    images: ["/branding/tokensentry-logo.png"],
   },
 };
 
@@ -15,19 +30,17 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
-      <body>
-        <header className="border-b border-slate-800/70 bg-slate-950/45 backdrop-blur-md">
-          <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
+    <html lang="en" className={raleway.variable}>
+      <body className="font-sans">
+        <header className="border-b border-slate-700/45 bg-slate-950/35 backdrop-blur-md">
+          <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 md:py-4">
             <a href="/" className="group flex items-center gap-3 text-xl font-bold text-white">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/branding/tokensentry-appicon.png" alt="TokenSentry app icon" className="h-9 w-9 rounded-full" />
               <span className="main-logo-wrap">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/branding/tokensentry-logo.png" alt="TokenSentry logo" className="main-logo h-10 w-auto md:h-12" />
+                <img src="/branding/tokensentry-logo.png" alt="TokenSentry logo" className="main-logo h-11 w-auto md:h-12" />
               </span>
             </a>
-            <nav className="flex gap-4 text-sm text-slate-300">
+            <nav className="flex gap-4 text-sm font-medium text-slate-300 md:gap-6">
               <a href="/about">About</a>
               <a href="/methodology">Methodology</a>
               <a href="/privacy">Privacy</a>

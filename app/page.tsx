@@ -1,21 +1,19 @@
 import { InputForm } from "@/components/InputForm";
 import { Card } from "@/components/ui/Card";
-import { Badge } from "@/components/ui/Badge";
 
 export default function HomePage() {
   return (
     <div className="space-y-10">
-      <section className="px-2 py-4 md:px-4 md:py-8">
-        <Badge>Crypto Security Intelligence</Badge>
-        <h1 className="mt-4 max-w-4xl text-4xl font-extrabold leading-tight text-white md:text-6xl">
+      <section className="px-2 py-5 md:px-4 md:py-10">
+        <h1 className="max-w-4xl text-4xl font-extrabold leading-tight text-white md:text-6xl">
           Detect Rug Pulls Before They Happen
         </h1>
-        <p className="mt-4 max-w-3xl text-base text-slate-300 md:text-lg">
+        <p className="mt-5 max-w-3xl text-base text-slate-200 md:text-lg">
           Instant on-chain risk analysis for crypto tokens. Scan contracts for
           honeypot behavior, liquidity risks, ownership traps, and smart contract
           red flags in seconds.
         </p>
-        <div className="mt-6">
+        <div className="mt-8">
           <InputForm />
         </div>
       </section>

@@ -6,7 +6,6 @@ import { ChainAuto } from "@/lib/types";
 import { isEthAddress, isSolMint } from "@/lib/validation";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
-import { Badge } from "@/components/ui/Badge";
 
 export function InputForm() {
   const router = useRouter();
@@ -52,12 +51,11 @@ export function InputForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="rounded-2xl border border-amber-400/20 bg-transparent p-3 md:p-4">
-      <div className="mb-2 flex flex-wrap items-center gap-2">
-        <label htmlFor="token-input" className="text-sm font-medium text-slate-200">
+    <form onSubmit={handleSubmit} className="rounded-2xl border border-amber-200/25 bg-white/[0.02] p-4 md:p-5">
+      <div className="mb-3">
+        <label htmlFor="token-input" className="text-sm font-medium text-slate-100">
           Token name or contract address
         </label>
-        <Badge>Live Analysis</Badge>
       </div>
       <div className="flex flex-col gap-3 md:flex-row">
         <Input
@@ -69,7 +67,7 @@ export function InputForm() {
         <select
           value={chain}
           onChange={(e) => setChain(e.target.value as ChainAuto)}
-          className="rounded-xl border border-slate-700 bg-slate-950/80 px-3 py-2 text-white outline-none focus:border-amber-400"
+          className="rounded-xl border border-slate-600 bg-slate-900/70 px-3 py-2 text-white outline-none focus:border-amber-300"
         >
           <option value="auto">Auto</option>
           <option value="eth">Ethereum</option>
@@ -78,7 +76,7 @@ export function InputForm() {
         <Button type="submit">Analyze Token</Button>
       </div>
       {error ? <p className="mt-2 text-sm text-red-400">{error}</p> : null}
-      <div className="mt-4 flex flex-wrap gap-2 text-xs text-slate-300">
+      <div className="mt-4 flex flex-wrap gap-2 text-xs text-slate-200">
         <span className="rounded-full border border-slate-700 px-2 py-1">Ethereum</span>
         <span className="rounded-full border border-slate-700 px-2 py-1">Solana</span>
         <span className="rounded-full border border-slate-700 px-2 py-1">BNB (soon)</span>
