@@ -39,23 +39,22 @@ body::before {
   pointer-events: none;
   background:
     radial-gradient(
-      ellipse 22% 17% at 50% 50%,
-      rgba(200, 245, 255, 0.55) 0%,
-      rgba(0, 191, 255, 0.15) 55%,
+      ellipse 18% 14% at 50% 50%,
+      rgba(180, 235, 255, 0.28) 0%,
       transparent 100%
     ),
     radial-gradient(
-      ellipse 52% 42% at 50% 50%,
-      transparent 55%,
-      rgba(0, 191, 255, 0.28) 70%,
-      transparent 88%
+      ellipse 44% 35% at 50% 50%,
+      transparent 58%,
+      rgba(0, 191, 255, 0.14) 72%,
+      transparent 90%
     );
   z-index: -1;
   animation: eye-pulse 4s ease-in-out infinite;
 }
 
 @keyframes eye-pulse {
-  0%, 100% { opacity: 0.15; }
+  0%, 100% { opacity: 0.25; }
   50%       { opacity: 1;    }
 }
 
@@ -66,7 +65,7 @@ body::after {
   pointer-events: none;
   background:
     linear-gradient(135deg, rgba(216, 173, 96, 0.06), rgba(6, 7, 10, 0.0)),
-    linear-gradient(rgba(6, 7, 10, 0.72), rgba(6, 7, 10, 0.72)),
+    linear-gradient(rgba(6, 7, 10, 0.86), rgba(6, 7, 10, 0.86)),
     url("/sentry%208.jpg");
   background-size: cover;
   background-position: center center;
