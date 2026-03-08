@@ -167,75 +167,29 @@ a {
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
 }
 
-.main-logo-wrap {
-  position: relative;
-  display: inline-block;
-  border-radius: 0.75rem;
-  overflow: hidden;
-}
-
-.main-logo {
+/* ── Brand logo SVG (inline) ── */
+.brand-logo-svg {
+  height: 42px;
+  width: auto;
   display: block;
-  object-fit: contain;
-  filter: drop-shadow(0 0 8px rgba(216, 173, 96, 0.26));
+  filter: drop-shadow(0 0 6px rgba(216, 173, 96, 0.18));
   transition: filter 260ms ease, transform 260ms ease;
-}
-
-.main-logo-wrap::after {
-  content: "";
-  position: absolute;
-  top: -10%;
-  left: -52%;
-  width: 32%;
-  height: 130%;
-  background: linear-gradient(
-    105deg,
-    transparent,
-    rgba(255, 255, 255, 0.5),
-    rgba(255, 217, 148, 0.65),
-    transparent
-  );
-  transform: rotate(9deg);
-  opacity: 0.15;
-  animation: logo-shimmer 5.4s ease-in-out infinite;
-}
-
-.main-logo {
   animation: logo-pulse 5.4s ease-in-out infinite;
 }
 
-.group:hover .main-logo {
-  filter: drop-shadow(0 0 14px rgba(216, 173, 96, 0.52))
-    drop-shadow(0 0 12px rgba(0, 191, 255, 0.28));
-  transform: translateY(-1px) scale(1.01);
-}
-
-.group:hover .main-logo-wrap::after {
-  opacity: 0.85;
-}
-
-@keyframes logo-shimmer {
-  0%,
-  58%,
-  100% {
-    transform: translateX(-120%) rotate(9deg);
-    opacity: 0;
-  }
-  72% {
-    transform: translateX(430%) rotate(9deg);
-    opacity: 0.9;
-  }
+.group:hover .brand-logo-svg {
+  filter: drop-shadow(0 0 14px rgba(216, 173, 96, 0.5))
+    drop-shadow(0 0 8px rgba(0, 191, 255, 0.2));
+  transform: translateY(-1px);
 }
 
 @keyframes logo-pulse {
-  0%,
-  58%,
-  100% {
-    filter: drop-shadow(0 0 8px rgba(216, 173, 96, 0.26));
+  0%, 60%, 100% {
+    filter: drop-shadow(0 0 6px rgba(216, 173, 96, 0.18));
   }
-  72% {
-    filter: drop-shadow(0 0 14px rgba(216, 173, 96, 0.45))
-      drop-shadow(0 0 10px rgba(0, 191, 255, 0.2));
+  75% {
+    filter: drop-shadow(0 0 12px rgba(216, 173, 96, 0.42))
+      drop-shadow(0 0 8px rgba(0, 191, 255, 0.18));
   }
 }
 
@@ -244,18 +198,9 @@ a {
   body::after {
     animation: none;
   }
-  .group:hover .main-logo-wrap::after {
+  .brand-logo-svg {
     animation: none;
-    opacity: 0;
-  }
-  .main-logo {
     transition: none;
-    animation: none;
-    filter: drop-shadow(0 0 8px rgba(216, 173, 96, 0.26));
-  }
-  .main-logo-wrap::after {
-    animation: none;
-    opacity: 0;
   }
   .hero-bg-image,
   .hero-bg-glow,

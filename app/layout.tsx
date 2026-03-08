@@ -1,13 +1,21 @@
 import type { Metadata } from "next";
-import { Raleway } from "next/font/google";
+import { Raleway, Montserrat } from "next/font/google";
 import "./globals.css";
 import { HomeMarketPrices } from "@/components/HomeMarketPrices";
 import { CryptoNewsFeed } from "@/components/CryptoNewsFeed";
+import { BrandLogo } from "@/components/BrandLogo";
 
 const raleway = Raleway({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800"],
   variable: "--font-raleway",
+  display: "swap",
+});
+
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  weight: ["600"],
+  variable: "--font-montserrat",
   display: "swap",
 });
 
@@ -17,14 +25,14 @@ export const metadata: Metadata = {
     "TokenSentry provides educational token risk checks for Ethereum and Solana using transparent heuristics.",
   metadataBase: new URL("https://tokensentry.co"),
   icons: {
-    icon: "/tokensentry-appicon.png",
+    icon: "/favicon.svg",
     apple: "/tokensentry-appicon.png",
   },
   openGraph: {
     title: "TokenSentry - Crypto Token Risk Checker",
     description:
       "Educational crypto token risk checks for Ethereum and Solana with transparent heuristics.",
-    images: ["/branding/tokensentry-logo.png"],
+    images: ["/branding/tokensentry-logo.svg"],
   },
 };
 
@@ -32,17 +40,14 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={raleway.variable}>
+    <html lang="en" className={`${raleway.variable} ${montserrat.variable}`}>
       <body className="font-sans layout-root">
 
         {/* ── Left sidebar – locked in place ── */}
         <aside className="sidebar-nav">
           <div className="sidebar-logo-area">
-            <a href="/" className="group flex items-center gap-2">
-              <span className="main-logo-wrap">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/branding/tokensentry-logo.png" alt="TokenSentry logo" className="main-logo h-11 w-auto" />
-              </span>
+            <a href="/" className="group block">
+              <BrandLogo className="brand-logo-svg" />
             </a>
           </div>
 
@@ -50,10 +55,10 @@ export default function RootLayout({
 
           <nav className="sidebar-links">
             {[
-              { href: "/",             label: "Home" },
-              { href: "/about",        label: "About" },
-              { href: "/methodology",  label: "Methodology" },
-              { href: "/privacy",      label: "Privacy" },
+              { href: "/",            label: "Home" },
+              { href: "/about",       label: "About" },
+              { href: "/methodology", label: "Methodology" },
+              { href: "/privacy",     label: "Privacy" },
             ].map(({ href, label }) => (
               <a key={href} href={href} className="sidebar-link">
                 <span className="sidebar-link-bar" aria-hidden="true" />
