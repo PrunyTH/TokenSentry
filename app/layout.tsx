@@ -26,12 +26,15 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://tokensentry.co"),
   icons: {
     icon: [
-      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/favicon.ico",    sizes: "16x16 32x32 48x48", type: "image/x-icon" },
+      { url: "/favicon-32.png", sizes: "32x32",  type: "image/png" },
+      { url: "/favicon-192.png",sizes: "192x192",type: "image/png" },
+      { url: "/favicon.svg",    type: "image/svg+xml" },
     ],
     apple: [
-      { url: "/tokensentry-appicon.png", sizes: "390x390" },
+      { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
     ],
-    shortcut: "/favicon.svg",
+    shortcut: "/favicon.ico",
   },
   manifest: "/manifest.json",
   other: {
