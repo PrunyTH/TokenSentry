@@ -4,11 +4,11 @@ import { Card } from "@/components/ui/Card";
 export default function HomePage() {
   return (
     <div className="space-y-10">
-      <section className="relative rounded-3xl border border-amber-200/20 bg-black/20 px-5 py-10">
-        <h1 className="text-[2rem] font-extrabold leading-tight text-white md:text-[3.2rem]">
-          On-Chain Crypto Risk Intelligence
+      <section className="relative rounded-3xl border border-amber-200/20 bg-black/20 px-6 py-12 md:px-10 md:py-14">
+        <h1 className="text-[2.2rem] font-extrabold leading-tight text-white md:text-[3.8rem] lg:text-[4.4rem]">
+          On-Chain Crypto<br className="hidden md:block" /> Risk Intelligence
         </h1>
-        <p className="mt-4 max-w-3xl text-base text-slate-200 md:text-lg">
+        <p className="mt-5 max-w-4xl text-base text-slate-200 md:text-xl">
           Instant on-chain risk analysis for crypto tokens. Scan contracts for
           honeypot behavior, liquidity risks, ownership traps, and smart contract
           red flags in seconds.

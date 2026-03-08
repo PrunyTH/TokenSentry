@@ -1,30 +1,58 @@
 import { NextResponse } from "next/server";
 
-type MessariNewsItem = {
+type NewsItem = {
   id: string;
   title: string;
   url: string;
-  published_at: string;
-  author: { name: string } | null;
-  tags: { name: string }[];
+  source: string;
+  publishedAt: string;
 };
+
+function parseRSS(xml: string, source: string, limit = 25): NewsItem[] {
+  const items: NewsItem[] = [];
+  const itemRegex = /<item>([\s\S]*?)<\/item>/g;
+  let match;
+  while ((match = itemRegex.exec(xml)) !== null && items.length < limit) {
+    const block = match[1];
+    const title = (
+      block.match(/<title><!\[CDATA\[([\s\S]*?)\]\]><\/title>/)?.[1] ??
+      block.match(/<title>([\s\S]*?)<\/title>/)?.[1] ?? ""
+    ).trim()
+      .replace(/&amp;/g, "&")
+      .replace(/&lt;/g, "<")
+      .replace(/&gt;/g, ">")
+      .replace(/&#039;/g, "'")
+      .replace(/&quot;/g, '"');
+
+    const link = (
+      block.match(/<link>([\s\S]*?)<\/link>/)?.[1] ??
+      block.match(/<guid isPermaLink="true">([\s\S]*?)<\/guid>/)?.[1] ?? ""
+    ).trim();
+
+    const pubDate = block.match(/<pubDate>([\s\S]*?)<\/pubDate>/)?.[1]?.trim() ?? "";
+
+    if (title && link) {
+      items.push({
+        id: link,
+        title,
+        url: link,
+        source,
+        publishedAt: pubDate ? new Date(pubDate).toISOString() : new Date().toISOString(),
+      });
+    }
+  }
+  return items;
+}
 
 export async function GET() {
   try {
-    const res = await fetch(
-      "https://data.messari.io/api/v1/news?limit=25",
-      { next: { revalidate: 300 } }
-    );
-    if (!res.ok) throw new Error("upstream unavailable");
-    const data = (await res.json()) as { data: MessariNewsItem[] };
-    const items = (data.data ?? []).map((item) => ({
-      id: item.id,
-      title: item.title,
-      url: item.url,
-      source: item.author?.name ?? "Messari",
-      publishedAt: item.published_at,
-      tags: (item.tags ?? []).slice(0, 2).map((t) => t.name),
-    }));
+    const res = await fetch("https://decrypt.co/feed", {
+      next: { revalidate: 300 },
+      headers: { "User-Agent": "TokenSentry/1.0 news aggregator" },
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const xml = await res.text();
+    const items = parseRSS(xml, "Decrypt");
     return NextResponse.json({ items, updatedAt: new Date().toISOString() });
   } catch {
     return NextResponse.json({ error: "news unavailable" }, { status: 502 });
