@@ -88,24 +88,37 @@ export default function HomePage() {
       {/* Score preview + Why TokenSentry */}
       <section className="grid gap-6 lg:grid-cols-2">
         <Card>
-          <p className="text-xs uppercase tracking-wide text-slate-400">Score Preview</p>
-          <h2 className="mt-2 text-2xl font-bold text-white">Example Token Report</h2>
-          <div className="mt-4 flex items-center gap-3">
-            <span className="rounded-full border border-red-500/50 bg-red-500/20 px-3 py-1 text-sm font-semibold text-red-200">
-              High Risk
-            </span>
-            <span className="text-3xl font-extrabold text-white">78 / 100</span>
+          <p className="text-xs uppercase tracking-wide text-slate-400">Live Example Report</p>
+          <div className="mt-3 flex items-center gap-3">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="https://assets.coingecko.com/coins/images/29850/small/pepe-token.jpeg"
+              alt="PEPE"
+              width={40}
+              height={40}
+              className="rounded-full border border-slate-700 flex-shrink-0"
+            />
+            <div className="min-w-0">
+              <h2 className="text-xl font-bold text-white">PEPE <span className="text-sm font-normal text-slate-400">· Ethereum</span></h2>
+              <p className="text-xs text-slate-500 font-mono">0x6982...1933</p>
+            </div>
+            <div className="ml-auto text-right flex-shrink-0">
+              <span className="rounded-full border border-emerald-500/50 bg-emerald-500/15 px-3 py-1 text-sm font-semibold text-emerald-200">
+                Low Risk
+              </span>
+              <p className="mt-1 text-2xl font-extrabold text-white">14 / 100</p>
+            </div>
           </div>
           <div className="mt-4 grid grid-cols-2 gap-2 text-xs">
             {[
               { label: "Honeypot", value: "Clear", ok: true },
-              { label: "Mint Function", value: "Enabled", ok: false },
-              { label: "LP Locked", value: "Partial", ok: null },
-              { label: "Owner Holds", value: "34% supply", ok: false },
-              { label: "Liquidity", value: "$28k", ok: null },
-              { label: "Holder Count", value: "142", ok: null },
+              { label: "Mint Function", value: "Disabled", ok: true },
+              { label: "LP Locked", value: "100%", ok: true },
+              { label: "Owner Holds", value: "~0%", ok: true },
+              { label: "Liquidity", value: "$12.4M", ok: true },
+              { label: "Holder Count", value: "218,000+", ok: true },
               { label: "Contract", value: "Verified", ok: true },
-              { label: "Token Age", value: "6 days", ok: null },
+              { label: "Token Age", value: "690 days", ok: true },
             ].map(({ label, value, ok }) => (
               <div key={label} className="rounded-lg border border-slate-700/60 bg-slate-900/60 p-2.5">
                 <p className="text-slate-400">{label}</p>
@@ -116,7 +129,7 @@ export default function HomePage() {
             ))}
           </div>
           <p className="mt-3 text-xs text-slate-500">
-            <a href="/methodology#scoring" className="hover:text-slate-300">How is this score calculated? →</a>
+            Static snapshot for illustration. <a href="/methodology#scoring" className="hover:text-slate-300">How scores are calculated →</a>
           </p>
         </Card>
 

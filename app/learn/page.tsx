@@ -121,7 +121,7 @@ const glossary = [
 
 export default function LearnPage() {
   return (
-    <div className="max-w-3xl space-y-10">
+    <div className="max-w-5xl space-y-10">
       <div>
         <h1 className="text-3xl font-bold text-white">Learn Crypto Basics</h1>
         <p className="mt-2 text-sm text-slate-400">Plain-English explanations of the terms and concepts behind TokenSentry reports.</p>
