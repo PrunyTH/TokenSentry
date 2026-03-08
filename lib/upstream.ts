@@ -188,6 +188,76 @@ export async function honeypotCheck(address: string, chainId = 1) {
   }>;
 }
 
+// ── GoPlus Security API ───────────────────────────────────────────────────────
+
+export type GoplusHolder = {
+  address: string;
+  percent: string;       // decimal string, e.g. "0.15" = 15%
+  is_contract?: string;  // "0" | "1"
+  tag?: string;          // e.g. "Uniswap V3", "Burn Address"
+  is_locked?: number;    // 0 | 1 (used in lp_holders)
+};
+
+export type GoplusResult = {
+  is_mintable?: string;
+  hidden_owner?: string;
+  can_take_back_ownership?: string;
+  transfer_pausable?: string;
+  selfdestruct?: string;
+  is_proxy?: string;
+  trading_cooldown?: string;
+  is_open_source?: string;
+  owner_address?: string;
+  owner_percent?: string;
+  creator_address?: string;
+  creator_percent?: string;
+  holder_count?: string;
+  holders?: GoplusHolder[];
+  lp_holders?: GoplusHolder[];
+  token_name?: string;
+  token_symbol?: string;
+};
+
+export async function goplusSecurity(
+  address: string,
+  chainId: number
+): Promise<GoplusResult | null> {
+  const url = `https://api.gopluslabs.io/api/v1/token_security/${chainId}?contract_addresses=${encodeURIComponent(
+    address.toLowerCase()
+  )}`;
+  const res = await fetch(url, { cache: "no-store" });
+  if (!res.ok) throw new Error(`GoPlus failed: ${res.status}`);
+  const json = (await res.json()) as {
+    code: number;
+    result?: Record<string, GoplusResult>;
+  };
+  if (json.code !== 1 || !json.result) return null;
+  const entries = Object.entries(json.result);
+  return entries.length > 0 ? entries[0][1] : null;
+}
+
+// ── DexScreener API ───────────────────────────────────────────────────────────
+
+export type DexscreenerPair = {
+  chainId: string;
+  dexId: string;
+  liquidity?: { usd?: number };
+  volume?: { h24?: number };
+  priceChange?: { h24?: number };
+  pairCreatedAt?: number; // unix ms
+  fdv?: number;
+  marketCap?: number;
+};
+
+export async function dexscreenerToken(address: string) {
+  const url = `https://api.dexscreener.com/latest/dex/tokens/${encodeURIComponent(
+    address
+  )}`;
+  const res = await fetch(url, { cache: "no-store" });
+  if (!res.ok) throw new Error(`DexScreener failed: ${res.status}`);
+  return res.json() as Promise<{ pairs?: DexscreenerPair[] }>;
+}
+
 export async function rugcheckToken(mint: string) {
   const candidates = [
     `${rugcheckBase}/v1/tokens/${encodeURIComponent(mint)}/report`,
