@@ -31,35 +31,57 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={raleway.variable}>
-      <body className="font-sans">
-        <header className="border-b border-slate-700/45 bg-slate-950/35 backdrop-blur-md">
-          <div className="mx-auto flex w-full max-w-[1760px] items-center justify-between px-4 py-3 md:py-4">
-            <a href="/" className="group flex items-center gap-3 text-xl font-bold text-white">
+      <body className="font-sans layout-root">
+
+        {/* ── Left sidebar – locked in place ── */}
+        <aside className="sidebar-nav">
+          <div className="sidebar-logo-area">
+            <a href="/" className="group flex items-center gap-2">
               <span className="main-logo-wrap">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/branding/tokensentry-logo.png" alt="TokenSentry logo" className="main-logo h-12 w-auto md:h-14" />
+                <img src="/branding/tokensentry-logo.png" alt="TokenSentry logo" className="main-logo h-11 w-auto" />
               </span>
             </a>
-            <nav className="flex gap-4 text-sm font-medium text-slate-300 md:gap-6">
-              <a href="/">Home</a>
-              <a href="/about">About</a>
-              <a href="/methodology">Methodology</a>
-              <a href="/privacy">Privacy</a>
-            </nav>
           </div>
-        </header>
-        <main className="mx-auto w-full max-w-[1760px] px-4 py-8">{children}</main>
-        <footer className="mt-10 border-t border-slate-800/70 bg-slate-950/30">
-          <div className="mx-auto flex max-w-6xl flex-col gap-4 px-4 py-6 text-sm text-slate-400 md:flex-row md:items-center md:justify-between">
-            <p>TokenSentry © {new Date().getFullYear()} - Security Intelligence for Crypto Tokens</p>
-            <div className="flex gap-4">
-              <a href="/methodology">Docs</a>
-              <a href="/about">About</a>
-              <a href="mailto:contact@tokensentry.co">Contact</a>
-              <a href="https://x.com" target="_blank" rel="noreferrer">X / Twitter</a>
+
+          <p className="sidebar-section-label">Navigation</p>
+
+          <nav className="sidebar-links">
+            {[
+              { href: "/",             label: "Home" },
+              { href: "/about",        label: "About" },
+              { href: "/methodology",  label: "Methodology" },
+              { href: "/privacy",      label: "Privacy" },
+            ].map(({ href, label }) => (
+              <a key={href} href={href} className="sidebar-link">
+                <span className="sidebar-link-bar" aria-hidden="true" />
+                <span className="sidebar-link-text">{label}</span>
+              </a>
+            ))}
+          </nav>
+
+          <div className="sidebar-bottom">
+            <p className="text-[11px] text-slate-600 leading-relaxed">© {new Date().getFullYear()} TokenSentry</p>
+            <p className="text-[10px] text-slate-700 mt-0.5 tracking-wide uppercase">Security Intelligence</p>
+          </div>
+        </aside>
+
+        {/* ── Right scrollable area ── */}
+        <div className="content-scroll-area">
+          <main className="mx-auto w-full max-w-[1400px] px-6 py-8">{children}</main>
+          <footer className="mt-10 border-t border-slate-800/70 bg-slate-950/30">
+            <div className="mx-auto flex max-w-6xl flex-col gap-4 px-6 py-6 text-sm text-slate-400 md:flex-row md:items-center md:justify-between">
+              <p>TokenSentry © {new Date().getFullYear()} — Security Intelligence for Crypto Tokens</p>
+              <div className="flex gap-4">
+                <a href="/methodology">Docs</a>
+                <a href="/about">About</a>
+                <a href="mailto:contact@tokensentry.co">Contact</a>
+                <a href="https://x.com" target="_blank" rel="noreferrer">X / Twitter</a>
+              </div>
             </div>
-          </div>
-        </footer>
+          </footer>
+        </div>
+
       </body>
     </html>
   );
