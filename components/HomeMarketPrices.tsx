@@ -53,10 +53,9 @@ export function HomeMarketPrices() {
   );
 
   return (
-    <aside className="panel rounded-2xl p-5">
+    <aside className="panel rounded-2xl p-3">
       <p className="text-xs uppercase tracking-wide text-slate-300">Market Snapshot</p>
-      <p className="mt-1 text-sm text-slate-400">BTC, ETH, SOL, BNB spot prices</p>
-      <div className="mt-4 space-y-2">
+      <div className="mt-2 space-y-1.5">
         {(data?.prices ?? []).map((p) => (
           <a
             key={p.symbol}
@@ -71,13 +70,13 @@ export function HomeMarketPrices() {
             }
             target="_blank"
             rel="noreferrer"
-            className="flex items-center justify-between rounded-xl border border-slate-600/50 bg-slate-900/45 px-3 py-2 transition hover:border-sky-300/55 hover:bg-slate-800/65"
+            className="flex items-center justify-between rounded-lg border border-slate-600/50 bg-slate-900/45 px-2.5 py-1.5 transition hover:border-sky-300/55 hover:bg-slate-800/65"
           >
-            <span className="font-semibold text-slate-100">{p.symbol}</span>
+            <span className="text-sm font-semibold text-slate-100">{p.symbol}</span>
             <div className="text-right">
-              <p className="font-semibold text-slate-100">{fmtUsd(p.priceUsd)}</p>
+              <p className="text-sm font-semibold text-slate-100">{fmtUsd(p.priceUsd)}</p>
               {typeof p.change24h === "number" ? (
-                <p className={`text-xs ${p.change24h >= 0 ? "text-emerald-300" : "text-red-300"}`}>
+                <p className={`text-[10px] ${p.change24h >= 0 ? "text-emerald-300" : "text-red-300"}`}>
                   {p.change24h >= 0 ? "+" : ""}
                   {p.change24h.toFixed(2)}%
                 </p>
@@ -87,7 +86,7 @@ export function HomeMarketPrices() {
         ))}
         {error ? <p className="text-xs text-amber-200">{error}</p> : null}
       </div>
-      <p className="mt-3 text-xs text-slate-400">Updated: {updated}</p>
+      <p className="mt-1.5 text-[10px] text-slate-500">Updated: {updated}</p>
     </aside>
   );
 }

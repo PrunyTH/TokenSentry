@@ -4,6 +4,7 @@ import Script from "next/script";
 import "./globals.css";
 import { HomeMarketPrices } from "@/components/HomeMarketPrices";
 import { CryptoNewsFeed } from "@/components/CryptoNewsFeed";
+import { RiskLeaderboard } from "@/components/RiskLeaderboard";
 import { BrandLogo } from "@/components/BrandLogo";
 
 const raleway = Raleway({
@@ -124,10 +125,11 @@ export default function RootLayout({
           </footer>
         </div>
 
-        {/* ── Right sidebar: market prices + news ── */}
+        {/* ── Right sidebar: market prices + leaderboard + news ── */}
         <aside className="right-sidebar">
           <div className="right-sidebar-inner">
             <HomeMarketPrices />
+            <RiskLeaderboard />
             <CryptoNewsFeed />
           </div>
         </aside>
