@@ -177,7 +177,7 @@ export default function ExamplesPage() {
                   <span className={`rounded-full border px-3 py-1 text-sm font-semibold ${style.badge}`}>
                     {riskLabel}
                   </span>
-                  <p className={`mt-1 text-2xl font-extrabold ${style.score}`}>{ex.score} / 100</p>
+                  <p className={`mt-1 text-2xl font-extrabold ${style.score}`}>{ex.score} pts</p>
                 </div>
               </div>
 

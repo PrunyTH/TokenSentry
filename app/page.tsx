@@ -106,7 +106,7 @@ export default function HomePage() {
               <span className="rounded-full border border-emerald-500/50 bg-emerald-500/15 px-3 py-1 text-sm font-semibold text-emerald-200">
                 Low Risk
               </span>
-              <p className="mt-1 text-2xl font-extrabold text-white">14 / 100</p>
+              <p className="mt-1 text-2xl font-extrabold text-white">14 pts</p>
             </div>
           </div>
           <div className="mt-4 grid grid-cols-2 gap-2 text-xs">
