@@ -47,7 +47,7 @@ body::after {
   pointer-events: none;
   background:
     linear-gradient(rgba(6, 7, 10, 0.22), rgba(6, 7, 10, 0.22)),
-    url("/sentry%204.png");
+    url("/sentry%205.jpg");
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
