@@ -1,28 +1,20 @@
 import { InputForm } from "@/components/InputForm";
-import { HomeMarketPrices } from "@/components/HomeMarketPrices";
 import { Card } from "@/components/ui/Card";
 
 export default function HomePage() {
   return (
     <div className="space-y-10">
-      <section className="grid w-full gap-6 md:grid-cols-[minmax(0,1fr)_330px] xl:grid-cols-[minmax(0,1fr)_380px]">
-        <div className="relative rounded-3xl border border-amber-200/20 bg-black/20 px-3 py-5 md:px-5 md:py-10">
-          <div>
-          <h1 className="max-w-5xl whitespace-nowrap text-[2rem] font-extrabold leading-tight text-white md:text-[3.4rem]">
-            On-Chain Crypto Risk Intelligence
-          </h1>
-          <p className="mt-5 max-w-3xl text-base text-slate-200 md:text-lg">
-            Instant on-chain risk analysis for crypto tokens. Scan contracts for
-            honeypot behavior, liquidity risks, ownership traps, and smart contract
-            red flags in seconds.
-          </p>
-          <div className="mt-8">
-            <InputForm />
-          </div>
-          </div>
-        </div>
-        <div className="md:pt-2">
-          <HomeMarketPrices />
+      <section className="relative rounded-3xl border border-amber-200/20 bg-black/20 px-5 py-10">
+        <h1 className="text-[2rem] font-extrabold leading-tight text-white md:text-[3.2rem]">
+          On-Chain Crypto Risk Intelligence
+        </h1>
+        <p className="mt-4 max-w-2xl text-base text-slate-200 md:text-lg">
+          Instant on-chain risk analysis for crypto tokens. Scan contracts for
+          honeypot behavior, liquidity risks, ownership traps, and smart contract
+          red flags in seconds.
+        </p>
+        <div className="mt-8 max-w-2xl">
+          <InputForm />
         </div>
       </section>
 
