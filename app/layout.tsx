@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Raleway } from "next/font/google";
 import "./globals.css";
+import { HomeMarketPrices } from "@/components/HomeMarketPrices";
+import { CryptoNewsFeed } from "@/components/CryptoNewsFeed";
 
 const raleway = Raleway({
   subsets: ["latin"],
@@ -66,21 +68,29 @@ export default function RootLayout({
           </div>
         </aside>
 
-        {/* ── Right scrollable area ── */}
+        {/* ── Middle scrollable content ── */}
         <div className="content-scroll-area">
-          <main className="mx-auto w-full max-w-[1400px] px-6 py-8">{children}</main>
+          <main className="px-6 py-8">{children}</main>
           <footer className="mt-10 border-t border-slate-800/70 bg-slate-950/30">
-            <div className="mx-auto flex max-w-6xl flex-col gap-4 px-6 py-6 text-sm text-slate-400 md:flex-row md:items-center md:justify-between">
+            <div className="flex flex-col gap-4 px-6 py-6 text-sm text-slate-400 md:flex-row md:items-center md:justify-between">
               <p>TokenSentry © {new Date().getFullYear()} — Security Intelligence for Crypto Tokens</p>
               <div className="flex gap-4">
-                <a href="/methodology">Docs</a>
-                <a href="/about">About</a>
-                <a href="mailto:contact@tokensentry.co">Contact</a>
-                <a href="https://x.com" target="_blank" rel="noreferrer">X / Twitter</a>
+                <a href="/methodology" className="footer-link">Docs</a>
+                <a href="/about" className="footer-link">About</a>
+                <a href="mailto:contact@tokensentry.co" className="footer-link">Contact</a>
+                <a href="https://x.com/TokenSentry" target="_blank" rel="noreferrer" className="footer-link">X / Twitter</a>
               </div>
             </div>
           </footer>
         </div>
+
+        {/* ── Right sidebar: market prices + news ── */}
+        <aside className="right-sidebar">
+          <div className="right-sidebar-inner">
+            <HomeMarketPrices />
+            <CryptoNewsFeed />
+          </div>
+        </aside>
 
       </body>
     </html>
