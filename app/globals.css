@@ -46,12 +46,13 @@ body::after {
   inset: 0;
   pointer-events: none;
   background:
-    linear-gradient(rgba(6, 7, 10, 0.22), rgba(6, 7, 10, 0.22)),
+    linear-gradient(135deg, rgba(216, 173, 96, 0.08), rgba(6, 7, 10, 0.0)),
+    linear-gradient(rgba(6, 7, 10, 0.55), rgba(6, 7, 10, 0.55)),
     url("/sentry%206.jpg");
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
-  opacity: 0.88;
+  opacity: 0.95;
   z-index: -2;
 }
 
