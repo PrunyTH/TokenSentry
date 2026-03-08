@@ -4,7 +4,7 @@
   "description": "Crypto Token Risk Checker",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#060a14",
+  "background_color": "#ffffff",
   "theme_color": "#060a14",
   "icons": [
     {
