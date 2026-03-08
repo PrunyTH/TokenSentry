@@ -90,6 +90,7 @@ export default function RootLayout({
               { href: "/about",       label: "About" },
               { href: "/methodology", label: "Methodology" },
               { href: "/learn",       label: "Learn" },
+              { href: "/examples",    label: "Examples" },
               { href: "/privacy",     label: "Privacy" },
             ].map(({ href, label }) => (
               <a key={href} href={href} className="sidebar-link">
@@ -114,6 +115,7 @@ export default function RootLayout({
               <div className="flex gap-4">
                 <a href="/methodology" className="footer-link">Docs</a>
                 <a href="/learn" className="footer-link">Learn</a>
+                <a href="/examples" className="footer-link">Examples</a>
                 <a href="/about" className="footer-link">About</a>
                 <a href="mailto:contact@tokensentry.co" className="footer-link">Contact</a>
                 <a href="https://x.com/TokenSentry" target="_blank" rel="noreferrer" className="footer-link">X / Twitter</a>

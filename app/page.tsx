@@ -67,7 +67,7 @@ export default function HomePage() {
       </section>
 
       {/* Feature grid */}
-      <section className="px-6 md:px-10">
+      <section>
         <h2 className="mb-4 text-lg font-semibold text-white">What We Check</h2>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {features.map(({ label, href, desc }) => (

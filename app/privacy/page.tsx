@@ -2,7 +2,7 @@ import { Card } from "@/components/ui/Card";
 
 export default function PrivacyPage() {
   return (
-    <div className="max-w-2xl space-y-8">
+    <div className="w-full space-y-8">
       <div>
         <h1 className="text-3xl font-bold text-white">Privacy Policy</h1>
         <p className="mt-2 text-sm text-slate-400">Last updated March 2026</p>
