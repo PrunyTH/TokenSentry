@@ -7,7 +7,7 @@ import { ScoreDetails } from "@/components/ScoreDetails";
 import { RiskReport } from "@/lib/types";
 
 type Props = {
-  chain: "eth" | "sol";
+  chain: import("@/lib/types").Chain;
   id: string;
 };
 

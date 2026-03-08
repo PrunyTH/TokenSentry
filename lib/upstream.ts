@@ -1,4 +1,5 @@
-import { Candidate } from "@/lib/types";
+import { Candidate, Chain } from "@/lib/types";
+import { COINGECKO_PLATFORM_TO_CHAIN } from "@/lib/chains";
 
 const coingeckoBase = process.env.COINGECKO_BASE_URL ?? "https://api.coingecko.com/api/v3";
 const rugcheckBase = process.env.RUGCHECK_BASE_URL ?? "https://api.rugcheck.xyz";
@@ -93,24 +94,30 @@ export async function candidatesFromCoinGecko(
       if (result.status !== "fulfilled") continue;
       const coin = result.value;
       const platforms = coin.platforms ?? {};
-      const ethAddress = platforms.ethereum;
+
+      // Solana handled separately (different address format)
       const solMint = platforms.solana;
-      if (ethAddress) {
-        out.push({
-          chain: "eth",
-          name: coin.name,
-          symbol: coin.symbol?.toUpperCase() ?? "",
-          address: ethAddress,
-          thumb: coin.image?.thumb,
-          coingeckoId: coin.id,
-        });
-      }
       if (solMint) {
         out.push({
           chain: "sol",
           name: coin.name,
           symbol: coin.symbol?.toUpperCase() ?? "",
           address: solMint,
+          thumb: coin.image?.thumb,
+          coingeckoId: coin.id,
+        });
+      }
+
+      // All EVM chains via platform map
+      for (const [platform, address] of Object.entries(platforms)) {
+        if (!address || platform === "solana") continue;
+        const chain = COINGECKO_PLATFORM_TO_CHAIN[platform] as Chain | undefined;
+        if (!chain) continue;
+        out.push({
+          chain,
+          name: coin.name,
+          symbol: coin.symbol?.toUpperCase() ?? "",
+          address,
           thumb: coin.image?.thumb,
           coingeckoId: coin.id,
         });
@@ -159,10 +166,11 @@ export async function etherscanContractMeta(address: string) {
   };
 }
 
-export async function honeypotCheck(address: string) {
+/** Honeypot check — works for any EVM chain via chainID */
+export async function honeypotCheck(address: string, chainId = 1) {
   const endpoint = `${honeypotBase}/v2/IsHoneypot?address=${encodeURIComponent(
     address
-  )}&chainID=1`;
+  )}&chainID=${chainId}`;
   const res = await fetch(endpoint, { cache: "no-store" });
   if (!res.ok) {
     throw new Error(`Honeypot failed: ${res.status}`);

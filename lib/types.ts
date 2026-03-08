@@ -1,4 +1,13 @@
-export type Chain = "eth" | "sol";
+export type EvmChain =
+  | "eth"
+  | "bnb"
+  | "polygon"
+  | "arbitrum"
+  | "base"
+  | "avalanche"
+  | "optimism";
+
+export type Chain = EvmChain | "sol";
 export type ChainAuto = Chain | "auto";
 
 export interface Candidate {

@@ -1,13 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getCachedJson, setCachedJson } from "@/lib/cache";
 import { enforceRateLimit } from "@/lib/http";
-import { Candidate } from "@/lib/types";
+import { Candidate, Chain } from "@/lib/types";
 import { candidatesFromCoinGecko } from "@/lib/upstream";
 import { isEthAddress, isSolMint } from "@/lib/validation";
+import { isEvmChain } from "@/lib/chains";
 
 const SEARCH_TTL_SECONDS = 15 * 60;
 
-type ChainFilter = "eth" | "sol";
+type ChainFilter = Chain;
 
 function dedupeCandidates(items: Candidate[]) {
   const seen = new Set<string>();
@@ -20,7 +21,9 @@ function dedupeCandidates(items: Candidate[]) {
 }
 
 function parseChainFilter(value: string | null): ChainFilter | null {
-  if (value === "eth" || value === "sol") return value;
+  if (!value) return null;
+  if (value === "sol") return "sol";
+  if (isEvmChain(value)) return value;
   return null;
 }
 

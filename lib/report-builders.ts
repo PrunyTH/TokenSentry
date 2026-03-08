@@ -1,6 +1,7 @@
-import { EvidenceItem, RiskReport } from "@/lib/types";
+import { EvidenceItem, EvmChain, RiskReport } from "@/lib/types";
 import { categoryFromScore, clampScore, ethPoints, solPoints, sumEvidence } from "@/lib/scoring";
 import { etherscanContractMeta, honeypotCheck, rugcheckToken } from "@/lib/upstream";
+import { EVM_CHAINS } from "@/lib/chains";
 
 export async function buildEthReport(address: string): Promise<RiskReport> {
   const evidence: EvidenceItem[] = [];
@@ -42,7 +43,7 @@ export async function buildEthReport(address: string): Promise<RiskReport> {
   }
 
   try {
-    const hp = await honeypotCheck(address);
+    const hp = await honeypotCheck(address, 1);
     const isHoneypot = Boolean(hp?.honeypotResult?.isHoneypot);
     if (isHoneypot) {
       evidence.push({
@@ -75,11 +76,83 @@ export async function buildEthReport(address: string): Promise<RiskReport> {
 
   return {
     chain: "eth",
-    token: {
-      address,
-      name: tokenName,
-      symbol: tokenSymbol,
-    },
+    token: { address, name: tokenName, symbol: tokenSymbol },
+    score,
+    category: categoryFromScore(score),
+    evidence,
+    limitedData,
+    generatedAt: new Date().toISOString(),
+    links,
+    notes,
+  };
+}
+
+/** Generic EVM report for BNB, Polygon, Arbitrum, Base, Avalanche, Optimism */
+export async function buildEvmReport(address: string, chainKey: EvmChain): Promise<RiskReport> {
+  const chainConfig = EVM_CHAINS[chainKey];
+  const evidence: EvidenceItem[] = [];
+  const notes: string[] = [];
+  const links = [
+    { label: chainConfig.explorerName, url: `${chainConfig.explorerBase}/address/${address}` },
+    { label: "Dexscreener", url: `https://dexscreener.com/${chainConfig.dexscreenerChain}/${address}` },
+  ];
+
+  let limitedData = false;
+
+  try {
+    const hp = await honeypotCheck(address, chainConfig.chainId);
+    const isHoneypot = Boolean(hp?.honeypotResult?.isHoneypot);
+    const buyTax = hp?.simulationResult?.buyTax ?? 0;
+    const sellTax = hp?.simulationResult?.sellTax ?? 0;
+
+    if (isHoneypot) {
+      evidence.push({
+        label: "Honeypot simulation indicates sell failure / restriction",
+        severity: "high",
+        points: ethPoints().HONEYPOT_FAIL,
+      });
+    } else {
+      evidence.push({
+        label: "Honeypot simulation did not detect sell failure",
+        severity: "low",
+        points: 0,
+      });
+    }
+
+    if (!isHoneypot && sellTax > 10) {
+      evidence.push({
+        label: `High sell tax detected: ${sellTax.toFixed(1)}%`,
+        severity: sellTax > 25 ? "high" : "medium",
+        points: sellTax > 25 ? 30 : 15,
+      });
+    }
+
+    if (!isHoneypot && buyTax > 10) {
+      evidence.push({
+        label: `High buy tax detected: ${buyTax.toFixed(1)}%`,
+        severity: buyTax > 25 ? "high" : "medium",
+        points: buyTax > 25 ? 20 : 10,
+      });
+    }
+  } catch {
+    limitedData = true;
+    notes.push(`Honeypot simulation unavailable for ${chainConfig.name}.`);
+  }
+
+  if (evidence.length === 0) {
+    evidence.push({
+      label: "No high-confidence signals were available",
+      severity: "medium",
+      points: 0,
+      note: "Limited data may reduce reliability.",
+    });
+  }
+
+  const score = clampScore(sumEvidence(evidence));
+
+  return {
+    chain: chainKey,
+    token: { address },
     score,
     category: categoryFromScore(score),
     evidence,
@@ -157,11 +230,7 @@ export async function buildSolReport(mint: string): Promise<RiskReport> {
 
   return {
     chain: "sol",
-    token: {
-      address: mint,
-      name: tokenName,
-      symbol: tokenSymbol,
-    },
+    token: { address: mint, name: tokenName, symbol: tokenSymbol },
     score,
     category: categoryFromScore(score),
     evidence,
