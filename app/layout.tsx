@@ -89,6 +89,7 @@ export default function RootLayout({
               { href: "/",            label: "Home" },
               { href: "/about",       label: "About" },
               { href: "/methodology", label: "Methodology" },
+              { href: "/learn",       label: "Learn" },
               { href: "/privacy",     label: "Privacy" },
             ].map(({ href, label }) => (
               <a key={href} href={href} className="sidebar-link">
@@ -99,8 +100,8 @@ export default function RootLayout({
           </nav>
 
           <div className="sidebar-bottom">
-            <p className="text-[11px] text-slate-600 leading-relaxed">© {new Date().getFullYear()} TokenSentry</p>
-            <p className="text-[10px] text-slate-700 mt-0.5 tracking-wide uppercase">Security Intelligence</p>
+            <p className="text-[11px] text-slate-400 leading-relaxed">© {new Date().getFullYear()} TokenSentry</p>
+            <p className="text-[10px] text-slate-500 mt-0.5 tracking-wide uppercase">Security Intelligence</p>
           </div>
         </aside>
 

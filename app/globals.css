@@ -277,7 +277,7 @@ a {
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.25);
+  color: #c9a63c;
   padding: 0 0.75rem 0.5rem;
   margin-bottom: 0.25rem;
 }
@@ -298,7 +298,7 @@ a {
   border-radius: 0.5rem;
   font-size: 0.875rem;
   font-weight: 500;
-  color: #64748b !important;
+  color: #cbd5e1 !important;
   text-decoration: none !important;
   overflow: hidden;
   transition: color 200ms ease, background 200ms ease;
