@@ -1,45 +1,72 @@
 /**
- * TokenSentry brand logo — inline SVG (shield + honeycomb + wordmark).
- * Uses Montserrat SemiBold loaded by Next.js; works correctly as inline SVG.
+ * TokenSentry brand logo — Sentry Eye with honeycomb iris.
+ * Inline SVG: scales perfectly, uses Montserrat loaded by Next.js.
+ *
+ * Icon concept: almond eye silhouette with 7-hex honeycomb iris + gold pupil.
+ * The eye = protection/surveillance. The honeycomb = structured intelligence.
  */
 
-const SHIELD = "M 14 16 L 86 16 L 86 58 C 86 80 50 93 50 93 C 50 93 14 80 14 58 Z";
+// Almond eye outline path (left tip → top arc → right tip → bottom arc)
+const EYE_PATH = "M 8 50 Q 50 14 92 50 Q 50 86 8 50 Z";
 
-// Seven flat-top hexagons in honeycomb formation (r=8, centres spaced for r=9)
+// Iris circle params
+const IRIS_R = 19;
+
+// Seven flat-top hexagons inside the iris (r=4 each, tight honeycomb)
+// Centers spaced for r=4.5 theoretical touching, r=4 actual (small gaps)
 const HEX_POINTS = [
-  "50,60 56.93,56 56.93,48 50,44 43.07,48 43.07,56",           // centre
-  "42.2,46.5 49.13,42.5 49.13,34.5 42.2,30.5 35.27,34.5 35.27,42.5", // top-left
-  "57.8,46.5 64.73,42.5 64.73,34.5 57.8,30.5 50.87,34.5 50.87,42.5", // top-right
-  "34.4,60 41.33,56 41.33,48 34.4,44 27.47,48 27.47,56",        // mid-left
-  "65.6,60 72.53,56 72.53,48 65.6,44 58.67,48 58.67,56",        // mid-right
-  "42.2,73.5 49.13,69.5 49.13,61.5 42.2,57.5 35.27,61.5 35.27,69.5", // bot-left
-  "57.8,73.5 64.73,69.5 64.73,61.5 57.8,57.5 50.87,61.5 50.87,69.5", // bot-right
+  "50,54 53.46,52 53.46,48 50,46 46.54,48 46.54,52",              // centre
+  "46.1,47.25 49.56,45.25 49.56,41.25 46.1,39.25 42.64,41.25 42.64,45.25", // top-left
+  "53.9,47.25 57.36,45.25 57.36,41.25 53.9,39.25 50.44,41.25 50.44,45.25", // top-right
+  "42.21,54 45.67,52 45.67,48 42.21,46 38.75,48 38.75,52",         // mid-left
+  "57.79,54 61.25,52 61.25,48 57.79,46 54.33,48 54.33,52",         // mid-right
+  "46.1,60.75 49.56,58.75 49.56,54.75 46.1,52.75 42.64,54.75 42.64,58.75", // bot-left
+  "53.9,60.75 57.36,58.75 57.36,54.75 53.9,52.75 50.44,54.75 50.44,58.75", // bot-right
 ];
 
-function ShieldIcon() {
+// 12 tick marks around the iris edge (every 30°)
+const IRIS_TICKS = Array.from({ length: 12 }, (_, i) => {
+  const θ = (i * 30 * Math.PI) / 180;
+  const cos = Math.cos(θ), sin = Math.sin(θ);
+  return {
+    x1: 50 + IRIS_R * cos,       y1: 50 + IRIS_R * sin,
+    x2: 50 + (IRIS_R + 3) * cos, y2: 50 + (IRIS_R + 3) * sin,
+  };
+});
+
+function EyeIcon() {
   return (
     <>
-      <path
-        d={SHIELD}
-        fill="rgba(216,173,96,0.07)"
-        stroke="#D8AD60"
-        strokeWidth="2.5"
-        strokeLinejoin="round"
-      />
-      {HEX_POINTS.map((pts, i) => (
-        <polygon
-          key={i}
-          points={pts}
-          fill="rgba(216,173,96,0.09)"
-          stroke="#D8AD60"
-          strokeWidth="1.3"
-        />
+      {/* Outer eye almond */}
+      <path d={EYE_PATH} fill="none" stroke="#D8AD60" strokeWidth="2" strokeLinejoin="round" />
+
+      {/* Horizontal scan lines (iris edge → eye tip) */}
+      <line x1="8"  y1="50" x2={50 - IRIS_R} y2="50" stroke="#D8AD60" strokeWidth="0.8" opacity="0.45" />
+      <line x1={50 + IRIS_R} y1="50" x2="92" y2="50" stroke="#D8AD60" strokeWidth="0.8" opacity="0.45" />
+
+      {/* Iris ring */}
+      <circle cx="50" cy="50" r={IRIS_R} fill="rgba(216,173,96,0.05)" stroke="#D8AD60" strokeWidth="1.6" />
+
+      {/* Iris tick marks */}
+      {IRIS_TICKS.map((t, i) => (
+        <line key={i} x1={t.x1} y1={t.y1} x2={t.x2} y2={t.y2}
+              stroke="#D8AD60" strokeWidth="0.9" opacity="0.55" />
       ))}
+
+      {/* Honeycomb hexagons inside iris */}
+      {HEX_POINTS.map((pts, i) => (
+        <polygon key={i} points={pts}
+                 fill="rgba(216,173,96,0.08)" stroke="#D8AD60" strokeWidth="0.9" />
+      ))}
+
+      {/* Pupil — glowing gold dot */}
+      <circle cx="50" cy="50" r="4.5" fill="#D8AD60" opacity="0.9" />
+      <circle cx="50" cy="50" r="2.5" fill="#fff"    opacity="0.55" />
     </>
   );
 }
 
-/** Full logo: icon + "Token Sentry" wordmark */
+/** Full logo: eye icon + "Token Sentry" wordmark */
 export function BrandLogo({ className = "" }: { className?: string }) {
   return (
     <svg
@@ -49,7 +76,7 @@ export function BrandLogo({ className = "" }: { className?: string }) {
       xmlns="http://www.w3.org/2000/svg"
     >
       <g transform="scale(0.95)">
-        <ShieldIcon />
+        <EyeIcon />
       </g>
       <text
         x="100"
@@ -75,7 +102,7 @@ export function BrandIcon({ className = "" }: { className?: string }) {
       aria-label="Token Sentry icon"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <ShieldIcon />
+      <EyeIcon />
     </svg>
   );
 }
