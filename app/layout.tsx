@@ -25,8 +25,21 @@ export const metadata: Metadata = {
     "TokenSentry provides educational token risk checks for Ethereum and Solana using transparent heuristics.",
   metadataBase: new URL("https://tokensentry.co"),
   icons: {
-    icon: "/favicon.svg",
-    apple: "/tokensentry-appicon.png",
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+    ],
+    apple: [
+      { url: "/tokensentry-appicon.png", sizes: "390x390" },
+    ],
+    shortcut: "/favicon.svg",
+  },
+  manifest: "/manifest.json",
+  other: {
+    "theme-color": "#060a14",
+    "mobile-web-app-capable": "yes",
+    "apple-mobile-web-app-capable": "yes",
+    "apple-mobile-web-app-status-bar-style": "black-translucent",
+    "apple-mobile-web-app-title": "TokenSentry",
   },
   openGraph: {
     title: "TokenSentry - Crypto Token Risk Checker",

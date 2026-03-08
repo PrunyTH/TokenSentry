@@ -1,0 +1,22 @@
+{
+  "name": "TokenSentry",
+  "short_name": "TokenSentry",
+  "description": "Crypto Token Risk Checker",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#060a14",
+  "theme_color": "#060a14",
+  "icons": [
+    {
+      "src": "/tokensentry-appicon.png",
+      "sizes": "390x410",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
