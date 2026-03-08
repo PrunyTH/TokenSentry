@@ -54,7 +54,7 @@ export function CryptoNewsFeed() {
     <div className="news-feed-panel">
       <div className="news-feed-header">
         <p className="text-xs uppercase tracking-wide text-slate-300">Crypto News</p>
-        <p className="mt-0.5 text-[11px] text-slate-500">Via Messari · refreshes every 5 min</p>
+        <p className="mt-0.5 text-[11px] text-slate-500">Via Decrypt · refreshes every 5 min</p>
       </div>
 
       <div className="news-feed-scroll">

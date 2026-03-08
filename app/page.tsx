@@ -6,7 +6,7 @@ export default function HomePage() {
     <div className="space-y-10">
       <section className="relative rounded-3xl border border-amber-200/20 bg-black/20 px-6 py-12 md:px-10 md:py-14">
         <h1 className="text-[2.2rem] font-extrabold leading-tight text-white md:text-[3.8rem] lg:text-[4.4rem]">
-          On-Chain Crypto<br className="hidden md:block" /> Risk Intelligence
+          On-Chain Crypto Risk Intelligence
         </h1>
         <p className="mt-5 max-w-4xl text-base text-slate-200 md:text-xl">
           Instant on-chain risk analysis for crypto tokens. Scan contracts for
