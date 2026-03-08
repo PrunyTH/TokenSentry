@@ -1,30 +1,41 @@
 <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-  <!-- White background with rounded corners -->
-  <rect width="100" height="100" rx="18" fill="#ffffff"/>
-  <!-- Almond eye outline — dark navy, bold -->
+  <defs>
+    <style>
+      /* Dark navy eye on light tab bars; white eye on dark tab bars */
+      .eye { stroke: #0B1230; }
+      .pupil-outer { fill: #0B1230; }
+      .pupil-inner { fill: #00bfff; }
+      @media (prefers-color-scheme: dark) {
+        .eye { stroke: #ffffff; }
+        .pupil-outer { fill: #ffffff; }
+        .pupil-inner { fill: #00bfff; }
+      }
+    </style>
+  </defs>
+  <!-- Almond eye outline -->
   <path d="M 8 50 Q 50 14 92 50 Q 50 86 8 50 Z"
-        fill="none" stroke="#0B1230" stroke-width="3" stroke-linejoin="round"/>
+        fill="none" class="eye" stroke-width="3" stroke-linejoin="round"/>
   <!-- Scan lines -->
-  <line x1="8"  y1="50" x2="31" y2="50" stroke="#0B1230" stroke-width="1.2" opacity="0.4"/>
-  <line x1="69" y1="50" x2="92" y2="50" stroke="#0B1230" stroke-width="1.2" opacity="0.4"/>
-  <!-- Iris ring — bold -->
-  <circle cx="50" cy="50" r="19" fill="rgba(11,18,48,0.05)" stroke="#0B1230" stroke-width="2.2"/>
-  <!-- Honeycomb hexagons inside iris -->
+  <line x1="8"  y1="50" x2="31" y2="50" class="eye" stroke-width="1.2" opacity="0.4"/>
+  <line x1="69" y1="50" x2="92" y2="50" class="eye" stroke-width="1.2" opacity="0.4"/>
+  <!-- Iris ring -->
+  <circle cx="50" cy="50" r="19" fill="none" class="eye" stroke-width="2.2"/>
+  <!-- Honeycomb hexagons -->
   <polygon points="50,54 53.46,52 53.46,48 50,46 46.54,48 46.54,52"
-           fill="rgba(11,18,48,0.07)" stroke="#0B1230" stroke-width="1.2"/>
+           fill="none" class="eye" stroke-width="1.2"/>
   <polygon points="46.1,47.25 49.56,45.25 49.56,41.25 46.1,39.25 42.64,41.25 42.64,45.25"
-           fill="rgba(11,18,48,0.07)" stroke="#0B1230" stroke-width="1.2"/>
+           fill="none" class="eye" stroke-width="1.2"/>
   <polygon points="53.9,47.25 57.36,45.25 57.36,41.25 53.9,39.25 50.44,41.25 50.44,45.25"
-           fill="rgba(11,18,48,0.07)" stroke="#0B1230" stroke-width="1.2"/>
+           fill="none" class="eye" stroke-width="1.2"/>
   <polygon points="42.21,54 45.67,52 45.67,48 42.21,46 38.75,48 38.75,52"
-           fill="rgba(11,18,48,0.07)" stroke="#0B1230" stroke-width="1.2"/>
+           fill="none" class="eye" stroke-width="1.2"/>
   <polygon points="57.79,54 61.25,52 61.25,48 57.79,46 54.33,48 54.33,52"
-           fill="rgba(11,18,48,0.07)" stroke="#0B1230" stroke-width="1.2"/>
+           fill="none" class="eye" stroke-width="1.2"/>
   <polygon points="46.1,60.75 49.56,58.75 49.56,54.75 46.1,52.75 42.64,54.75 42.64,58.75"
-           fill="rgba(11,18,48,0.07)" stroke="#0B1230" stroke-width="1.2"/>
+           fill="none" class="eye" stroke-width="1.2"/>
   <polygon points="53.9,60.75 57.36,58.75 57.36,54.75 53.9,52.75 50.44,54.75 50.44,58.75"
-           fill="rgba(11,18,48,0.07)" stroke="#0B1230" stroke-width="1.2"/>
-  <!-- Pupil — dark navy with blue accent -->
-  <circle cx="50" cy="50" r="5.5" fill="#0B1230" opacity="0.95"/>
-  <circle cx="50" cy="50" r="2.8" fill="#00bfff" opacity="0.85"/>
+           fill="none" class="eye" stroke-width="1.2"/>
+  <!-- Pupil -->
+  <circle cx="50" cy="50" r="5.5" class="pupil-outer" opacity="0.95"/>
+  <circle cx="50" cy="50" r="2.8" class="pupil-inner" opacity="0.85"/>
 </svg>
