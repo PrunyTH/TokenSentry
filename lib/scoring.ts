@@ -38,7 +38,8 @@ export function clampScore(value: number): number {
   return Math.max(0, Math.round(value));
 }
 
-export function categoryFromScore(score: number): "Low" | "Medium" | "High" {
+export function categoryFromScore(score: number): "Low" | "Medium" | "High" | "Extreme" {
+  if (score >= 100) return "Extreme";
   if (score >= 67) return "High";
   if (score >= 34) return "Medium";
   return "Low";

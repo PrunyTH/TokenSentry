@@ -36,7 +36,7 @@ export interface RiskReport {
     address: string;
   };
   score: number;
-  category: "Low" | "Medium" | "High";
+  category: "Low" | "Medium" | "High" | "Extreme";
   evidence: EvidenceItem[];
   limitedData: boolean;
   generatedAt: string;

@@ -1,9 +1,10 @@
 import { RiskReport } from "@/lib/types";
 
 const categoryStyles: Record<RiskReport["category"], { wrap: string; score: string; desc: string }> = {
-  Low:    { wrap: "border-emerald-500/40 bg-emerald-950/30", score: "text-emerald-300", desc: "No major flags detected. Always verify independently." },
-  Medium: { wrap: "border-amber-500/40 bg-amber-950/30",    score: "text-amber-300",   desc: "One or more concerning signals — research further." },
-  High:   { wrap: "border-red-500/40 bg-red-950/30",        score: "text-red-300",     desc: "Multiple serious red flags detected." },
+  Low:     { wrap: "border-emerald-500/40 bg-emerald-950/30",  score: "text-emerald-300",  desc: "No major flags detected. Always verify independently." },
+  Medium:  { wrap: "border-amber-500/40 bg-amber-950/30",      score: "text-amber-300",    desc: "One or more concerning signals — research further." },
+  High:    { wrap: "border-red-500/40 bg-red-950/30",          score: "text-red-300",      desc: "Multiple serious red flags detected." },
+  Extreme: { wrap: "border-fuchsia-500/60 bg-fuchsia-950/40",  score: "text-fuchsia-300",  desc: "Extreme danger — hallmarks of a scam or rug pull." },
 };
 
 export function ScoreBadge({ score, category }: { score: number; category: RiskReport["category"] }) {

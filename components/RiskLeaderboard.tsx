@@ -46,7 +46,7 @@ export function RiskLeaderboard() {
             >
               {/* Score progress bar behind row */}
               <div
-                className="absolute inset-y-0 left-0 rounded-lg bg-red-950/40"
+                className={`absolute inset-y-0 left-0 rounded-lg ${score >= 100 ? "bg-fuchsia-950/50" : "bg-red-950/40"}`}
                 style={{ width: barWidth }}
                 aria-hidden="true"
               />
@@ -68,7 +68,7 @@ export function RiskLeaderboard() {
                   </div>
                 </div>
                 {/* Score */}
-                <span className="flex-shrink-0 text-sm font-extrabold text-red-300">
+                <span className={`flex-shrink-0 text-sm font-extrabold ${score >= 100 ? "text-fuchsia-300" : "text-red-300"}`}>
                   {score}
                 </span>
               </div>
@@ -79,7 +79,7 @@ export function RiskLeaderboard() {
 
       {/* Footer note */}
       <p className="mt-1.5 text-[9px] text-slate-600">
-        100 = max possible score · points clamped at 100
+        <span className="text-fuchsia-500/70">■</span> 100+ pts = Extreme Risk · no upper cap
       </p>
     </div>
   );

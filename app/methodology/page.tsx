@@ -7,9 +7,10 @@ export const metadata: Metadata = {
 };
 
 const riskLevels = [
-  { range: "0 – 33", label: "Low Risk", color: "text-emerald-300", bg: "bg-emerald-500/10 border-emerald-500/30", desc: "No major red flags detected. Always verify independently before investing." },
-  { range: "34 – 66", label: "Medium Risk", color: "text-amber-300", bg: "bg-amber-500/10 border-amber-500/30", desc: "One or more concerning signals. Use caution and research further." },
-  { range: "67 – 100", label: "High Risk", color: "text-red-300", bg: "bg-red-500/10 border-red-500/30", desc: "Multiple serious red flags. High probability of rug pull, honeypot, or scam." },
+  { range: "0 – 33",  label: "Low Risk",     color: "text-emerald-300", bg: "bg-emerald-500/10 border-emerald-500/30",  desc: "No major red flags detected. Always verify independently before investing." },
+  { range: "34 – 66", label: "Medium Risk",   color: "text-amber-300",   bg: "bg-amber-500/10 border-amber-500/30",     desc: "One or more concerning signals. Use caution and research further." },
+  { range: "67 – 99", label: "High Risk",     color: "text-red-300",     bg: "bg-red-500/10 border-red-500/30",         desc: "Multiple serious red flags. High probability of rug pull, honeypot, or scam." },
+  { range: "100 +",   label: "Extreme Risk",  color: "text-fuchsia-300", bg: "bg-fuchsia-500/10 border-fuchsia-500/40", desc: "Extreme danger — token exhibits hallmarks of a confirmed scam or active rug pull." },
 ];
 
 const allChecks = [
@@ -71,8 +72,8 @@ export default function MethodologyPage() {
       </Card>
 
       <Card id="scoring" className="space-y-4">
-        <h2 className="text-xl font-semibold text-white">Risk Score Scale (0 to 100)</h2>
-        <div className="grid gap-3 sm:grid-cols-3">
+        <h2 className="text-xl font-semibold text-white">Risk Score Scale</h2>
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {riskLevels.map(({ range, label, color, bg, desc }) => (
             <div key={range} className={`rounded-xl border p-4 ${bg}`}>
               <p className={`text-base font-bold ${color}`}>{label}</p>
