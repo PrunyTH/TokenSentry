@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Raleway, Montserrat } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import { HomeMarketPrices } from "@/components/HomeMarketPrices";
 import { CryptoNewsFeed } from "@/components/CryptoNewsFeed";
@@ -57,6 +58,20 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${raleway.variable} ${montserrat.variable}`}>
+      <head>
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-B0HDNS5HNF"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-B0HDNS5HNF');
+          `}
+        </Script>
+      </head>
       <body className="font-sans layout-root">
 
         {/* ── Left sidebar – locked in place ── */}
