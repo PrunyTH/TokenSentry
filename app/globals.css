@@ -31,13 +31,31 @@ body {
   overflow: hidden;
 }
 
+/* Pulsing eye glow – centred on the pupil of the sentry eye image */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
   pointer-events: none;
-  background: linear-gradient(rgba(4, 5, 7, 0.12), rgba(4, 5, 7, 0.12));
+  background:
+    radial-gradient(
+      ellipse 18% 14% at 50% 50%,
+      rgba(180, 235, 255, 0.28) 0%,
+      transparent 100%
+    ),
+    radial-gradient(
+      ellipse 44% 35% at 50% 50%,
+      transparent 58%,
+      rgba(0, 191, 255, 0.14) 72%,
+      transparent 90%
+    );
   z-index: -1;
+  animation: eye-pulse 4s ease-in-out infinite;
+}
+
+@keyframes eye-pulse {
+  0%, 100% { opacity: 0.25; }
+  50%       { opacity: 1;    }
 }
 
 body::after {
@@ -46,9 +64,9 @@ body::after {
   inset: 0;
   pointer-events: none;
   background:
-    linear-gradient(135deg, rgba(216, 173, 96, 0.08), rgba(6, 7, 10, 0.0)),
-    linear-gradient(rgba(6, 7, 10, 0.55), rgba(6, 7, 10, 0.55)),
-    url("/sentry%207.jpg");
+    linear-gradient(135deg, rgba(216, 173, 96, 0.06), rgba(6, 7, 10, 0.0)),
+    linear-gradient(rgba(6, 7, 10, 0.48), rgba(6, 7, 10, 0.48)),
+    url("/sentry%208.jpg");
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
@@ -207,6 +225,10 @@ a {
   .hero-bg-matrix {
     animation: none;
     transform: none;
+  }
+  body::before {
+    animation: none;
+    opacity: 0.5;
   }
 }
 
