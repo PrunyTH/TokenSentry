@@ -48,11 +48,11 @@ export default function HomePage() {
   return (
     <div className="space-y-10">
       {/* Hero */}
-      <section className="relative rounded-3xl border border-white/10 bg-black/20 px-6 py-12 md:px-10 md:py-14">
+      <section className="relative rounded-3xl border border-white/10 bg-slate-950/80 px-6 py-12 md:px-10 md:py-14">
         <h1 className="text-[2.2rem] font-extrabold leading-tight text-white md:text-[3.2rem] lg:text-[3.8rem]">
           On-Chain Crypto Risk Intelligence
         </h1>
-        <p className="mt-4 max-w-2xl text-base text-slate-300 md:text-lg">
+        <p className="mt-4 text-sm text-slate-300 md:text-base">
           Scan any token for honeypots, rug pulls, and smart contract red flags across 8 blockchains — in seconds, for free.
         </p>
         <div className="mt-8">
@@ -67,14 +67,14 @@ export default function HomePage() {
       </section>
 
       {/* Feature grid */}
-      <section>
+      <section className="px-6 md:px-10">
         <h2 className="mb-4 text-lg font-semibold text-white">What We Check</h2>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {features.map(({ label, href, desc }) => (
             <a
               key={label}
               href={href}
-              className="group block rounded-2xl border border-slate-700/50 bg-slate-900/40 p-4 transition-colors hover:border-white/20 hover:bg-slate-800/50"
+              className="group block rounded-2xl border border-slate-700/50 bg-slate-950/85 p-4 transition-colors hover:border-white/20 hover:bg-slate-900/70"
             >
               <p className="text-sm font-semibold text-white transition-colors group-hover:text-sky-300">
                 {label}

@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <div className="max-w-5xl space-y-8">
+    <div className="w-full space-y-8">
       <div>
         <h1 className="text-3xl font-bold text-white">About TokenSentry</h1>
         <p className="mt-2 text-sm text-slate-400">Transparent on-chain risk intelligence — free, open, evidence-driven.</p>

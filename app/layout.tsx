@@ -113,6 +113,7 @@ export default function RootLayout({
               <p>TokenSentry © {new Date().getFullYear()} — Security Intelligence for Crypto Tokens</p>
               <div className="flex gap-4">
                 <a href="/methodology" className="footer-link">Docs</a>
+                <a href="/learn" className="footer-link">Learn</a>
                 <a href="/about" className="footer-link">About</a>
                 <a href="mailto:contact@tokensentry.co" className="footer-link">Contact</a>
                 <a href="https://x.com/TokenSentry" target="_blank" rel="noreferrer" className="footer-link">X / Twitter</a>

@@ -51,7 +51,7 @@ function SeverityDot({ s }: { s: string }) {
 
 export default function MethodologyPage() {
   return (
-    <div className="max-w-5xl space-y-10">
+    <div className="w-full space-y-10">
       <div>
         <h1 className="text-3xl font-bold text-white">Methodology</h1>
         <p className="mt-2 text-sm text-slate-400">How TokenSentry calculates risk scores — transparent, auditable, evidence-backed.</p>
