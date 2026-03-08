@@ -8,10 +8,8 @@ export default function HomePage() {
         <h1 className="text-[2.2rem] font-extrabold leading-tight text-white md:text-[3.8rem] lg:text-[4.4rem]">
           On-Chain Crypto Risk Intelligence
         </h1>
-        <p className="mt-5 max-w-4xl text-base text-slate-200 md:text-xl">
-          Instant on-chain risk analysis for crypto tokens. Scan contracts for
-          honeypot behavior, liquidity risks, ownership traps, and smart contract
-          red flags in seconds.
+        <p className="mt-5 text-base text-slate-200 md:text-xl whitespace-nowrap">
+          Scan any token for honeypots, rug pulls, and smart contract red flags — in seconds.
         </p>
         <div className="mt-8">
           <InputForm />
