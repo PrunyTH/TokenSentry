@@ -12,7 +12,7 @@ type MessariNewsItem = {
 export async function GET() {
   try {
     const res = await fetch(
-      "https://data.messari.io/api/v1/news?limit=25&sortBy=publishedAt",
+      "https://data.messari.io/api/v1/news?limit=25",
       { next: { revalidate: 300 } }
     );
     if (!res.ok) throw new Error("upstream unavailable");

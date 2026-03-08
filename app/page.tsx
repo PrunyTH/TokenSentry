@@ -8,12 +8,12 @@ export default function HomePage() {
         <h1 className="text-[2rem] font-extrabold leading-tight text-white md:text-[3.2rem]">
           On-Chain Crypto Risk Intelligence
         </h1>
-        <p className="mt-4 max-w-2xl text-base text-slate-200 md:text-lg">
+        <p className="mt-4 max-w-3xl text-base text-slate-200 md:text-lg">
           Instant on-chain risk analysis for crypto tokens. Scan contracts for
           honeypot behavior, liquidity risks, ownership traps, and smart contract
           red flags in seconds.
         </p>
-        <div className="mt-8 max-w-2xl">
+        <div className="mt-8">
           <InputForm />
         </div>
       </section>
