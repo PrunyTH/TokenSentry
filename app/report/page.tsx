@@ -15,21 +15,29 @@ const checks = [
   "Holder concentration and ownership review",
 ];
 
+const supportedChains = ["Ethereum", "BNB Chain", "Polygon", "Arbitrum", "Base", "Avalanche", "Optimism", "Solana"];
+
 const partners = [
   {
     name: "Coinbase Affiliate",
     href: "https://www.coinbase.com/affiliates",
     desc: "Useful if you want a mainstream exchange referral aligned with beginner-friendly crypto education.",
+    accent: "from-sky-400/25 to-blue-500/15 border-sky-400/30",
+    mark: "CB",
   },
   {
     name: "Ledger Affiliate",
     href: "https://affiliate.ledger.com/",
     desc: "Strong fit for TokenSentry because the site already leans into security and self-custody messaging.",
+    accent: "from-emerald-300/20 to-white/5 border-emerald-300/25",
+    mark: "L",
   },
   {
     name: "Awin Publishers",
     href: "https://www.awin.com/us/publishers",
     desc: "Good umbrella network if you want to test broader finance, software, or security affiliate partners.",
+    accent: "from-orange-400/20 to-rose-400/10 border-orange-300/25",
+    mark: "A",
   },
 ];
 
@@ -45,7 +53,7 @@ export default function ReportLandingPage() {
           This page is focused on one job: getting you from token name or address to the full TokenSentry
           report as fast as possible.
         </p>
-        <div className="mt-8 max-w-4xl">
+        <div className="mt-8">
           <InputForm />
         </div>
       </section>
@@ -83,10 +91,59 @@ export default function ReportLandingPage() {
                 rel="noreferrer"
                 className="block rounded-2xl border border-slate-700/60 bg-slate-900/60 px-4 py-3 text-slate-200 transition-colors hover:border-sky-400/50 hover:text-white"
               >
-                <p className="font-semibold text-white">{partner.name}</p>
-                <p className="mt-1 text-slate-400">{partner.desc}</p>
+                <div className="flex items-start gap-3">
+                  <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border bg-gradient-to-br text-sm font-bold text-white ${partner.accent}`}>
+                    {partner.mark}
+                  </div>
+                  <div>
+                    <p className="font-semibold text-white">{partner.name}</p>
+                    <p className="mt-1 text-slate-400">{partner.desc}</p>
+                  </div>
+                </div>
               </a>
             ))}
+          </div>
+        </Card>
+      </section>
+
+      <section className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(300px,380px)]">
+        <Card>
+          <p className="text-xs uppercase tracking-wide text-slate-400">Supported chains</p>
+          <h2 className="mt-2 text-2xl font-bold text-white">The scan covers the main chains users actually need</h2>
+          <div className="mt-5 flex flex-wrap gap-3">
+            {supportedChains.map((chain) => (
+              <div
+                key={chain}
+                className="rounded-full border border-slate-700/60 bg-slate-900/60 px-4 py-2 text-sm text-slate-200"
+              >
+                {chain}
+              </div>
+            ))}
+          </div>
+        </Card>
+
+        <Card>
+          <p className="text-xs uppercase tracking-wide text-slate-400">Quick actions</p>
+          <h2 className="mt-2 text-2xl font-bold text-white">Keep the report flow moving</h2>
+          <div className="mt-5 space-y-3 text-sm">
+            <a
+              href="/examples"
+              className="block rounded-2xl border border-slate-700/60 bg-slate-900/60 px-4 py-3 text-slate-200 transition-colors hover:border-sky-400/50 hover:text-white"
+            >
+              Browse example reports
+            </a>
+            <a
+              href="/methodology"
+              className="block rounded-2xl border border-slate-700/60 bg-slate-900/60 px-4 py-3 text-slate-200 transition-colors hover:border-sky-400/50 hover:text-white"
+            >
+              Review the scoring methodology
+            </a>
+            <a
+              href="/learn"
+              className="block rounded-2xl border border-slate-700/60 bg-slate-900/60 px-4 py-3 text-slate-200 transition-colors hover:border-sky-400/50 hover:text-white"
+            >
+              Learn the basics before scanning
+            </a>
           </div>
         </Card>
       </section>

@@ -45,6 +45,48 @@ const features = [
   },
 ];
 
+const trustChips = [
+  {
+    label: "Free access",
+    icon: (
+      <svg viewBox="0 0 24 24" className="h-5 w-5" aria-hidden="true">
+        <path d="M12 3 4.5 7v5.5c0 4.5 3.2 7.8 7.5 8.9 4.3-1.1 7.5-4.4 7.5-8.9V7L12 3Z" fill="none" stroke="currentColor" strokeWidth="1.7" />
+        <path d="M9.4 12.2 11.1 14l3.8-4.2" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    ),
+  },
+  {
+    label: "No sign-up",
+    icon: (
+      <svg viewBox="0 0 24 24" className="h-5 w-5" aria-hidden="true">
+        <circle cx="12" cy="8" r="3" fill="none" stroke="currentColor" strokeWidth="1.7" />
+        <path d="M5.5 18c1.7-2.7 4-4 6.5-4s4.8 1.3 6.5 4" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
+        <path d="m17.5 6 3 3M20.5 6l-3 3" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
+      </svg>
+    ),
+  },
+  {
+    label: "Multi-chain",
+    icon: (
+      <svg viewBox="0 0 24 24" className="h-5 w-5" aria-hidden="true">
+        <circle cx="6" cy="12" r="2.1" fill="none" stroke="currentColor" strokeWidth="1.7" />
+        <circle cx="18" cy="6" r="2.1" fill="none" stroke="currentColor" strokeWidth="1.7" />
+        <circle cx="18" cy="18" r="2.1" fill="none" stroke="currentColor" strokeWidth="1.7" />
+        <path d="M7.9 11.2 16.1 6.8M7.9 12.8l8.2 4.4" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
+      </svg>
+    ),
+  },
+  {
+    label: "Fast scans",
+    icon: (
+      <svg viewBox="0 0 24 24" className="h-5 w-5" aria-hidden="true">
+        <circle cx="12" cy="12" r="7.5" fill="none" stroke="currentColor" strokeWidth="1.7" />
+        <path d="M12 8.2V12l2.8 1.8" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    ),
+  },
+];
+
 export default function HomePage() {
   return (
     <div className="space-y-10">
@@ -67,6 +109,18 @@ export default function HomePage() {
                 Learn what these checks mean →
               </a>
             </p>
+            <div className="mt-5 flex flex-wrap gap-3">
+              {trustChips.map((chip) => (
+                <div
+                  key={chip.label}
+                  title={chip.label}
+                  aria-label={chip.label}
+                  className="flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-700/70 bg-slate-900/60 text-sky-200 shadow-[0_10px_24px_rgba(0,0,0,0.18)] transition-colors hover:border-sky-400/45 hover:text-white"
+                >
+                  {chip.icon}
+                </div>
+              ))}
+            </div>
           </div>
           <div className="lg:col-span-1">
             <HeroMarketPanel />
