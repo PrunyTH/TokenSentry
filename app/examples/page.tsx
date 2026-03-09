@@ -6,12 +6,13 @@ export const metadata: Metadata = {
   description: "Real-world examples of safe and dangerous crypto tokens — see how TokenSentry scores them and why.",
 };
 
-type RiskLevel = "low" | "medium" | "high";
+type RiskLevel = "low" | "medium" | "high" | "extreme";
 
 const riskStyle: Record<RiskLevel, { badge: string; score: string }> = {
-  low:    { badge: "border-emerald-500/50 bg-emerald-500/15 text-emerald-200", score: "text-emerald-300" },
-  medium: { badge: "border-amber-500/50 bg-amber-500/15 text-amber-200",     score: "text-amber-300"   },
-  high:   { badge: "border-red-500/50 bg-red-500/20 text-red-200",           score: "text-red-300"     },
+  low:     { badge: "border-emerald-500/50 bg-emerald-500/15 text-emerald-200",   score: "text-emerald-300"  },
+  medium:  { badge: "border-amber-500/50 bg-amber-500/15 text-amber-200",         score: "text-amber-300"    },
+  high:    { badge: "border-red-500/50 bg-red-500/20 text-red-200",               score: "text-red-300"      },
+  extreme: { badge: "border-fuchsia-500/60 bg-fuchsia-500/15 text-fuchsia-200",   score: "text-fuchsia-300"  },
 };
 
 const examples = [
@@ -79,15 +80,36 @@ const examples = [
     why: null,
   },
   {
+    name: "AnubisDAO",
+    ticker: "ANKH",
+    chain: "Ethereum",
+    address: "0x68b0df17a6e8bf5de70b6d3d66ebcf5614d77568",
+    logo: null,
+    risk: "extreme" as RiskLevel,
+    score: 185,
+    verdict: "Extreme Rug Pull — $60M stolen in 20 hours",
+    color: "border-fuchsia-500/30",
+    checks: [
+      { label: "Honeypot",       value: "Detected",           ok: false },
+      { label: "Mint Function",  value: "Owner-controlled",   ok: false },
+      { label: "LP Locked",      value: "None — drained",     ok: false },
+      { label: "Contract",       value: "Hidden owner",       ok: false },
+      { label: "Owner Holds",    value: ">99% at launch",     ok: false },
+      { label: "Liquidity",      value: "$0 after drain",     ok: false },
+    ],
+    summary: "AnubisDAO raised approximately $60 million USD worth of ETH in October 2021 under the guise of a dog-themed DeFi project. Within 20 hours of the liquidity event closing, all funds were moved from the liquidity pool to a single wallet by the anonymous deployer. No product was ever delivered. It remains one of the largest single-event rug pulls in DeFi history.",
+    why: "Every flag in the TokenSentry model was triggered: the contract contained a hidden owner mechanism, the deployer wallet held virtually all supply at launch, LP tokens were never locked, and the contract was structured to allow instant liquidity removal. The 185-point score places it firmly in the Extreme tier. Key lesson: a high-profile raise and active social media presence do not reduce on-chain risk — the contract tells the real story. Searching by name will not find this token because CoinGecko delisted it after the rug. Paste the contract address directly: 0x68b0df17a6e8bf5de70b6d3d66ebcf5614d77568.",
+  },
+  {
     name: "SQUID Game Token",
     ticker: "SQUID",
     chain: "BNB Chain",
     address: "0x87230146E138d3F296a9a77e497A2A83012e9Bc5",
     logo: null,
-    risk: "high" as RiskLevel,
-    score: 95,
+    risk: "extreme" as RiskLevel,
+    score: 118,
     verdict: "Confirmed Rug Pull — October 2021",
-    color: "border-red-500/20",
+    color: "border-fuchsia-500/30",
     checks: [
       { label: "Honeypot", value: "Detected", ok: false },
       { label: "Sell Function", value: "Blocked", ok: false },
@@ -97,7 +119,7 @@ const examples = [
       { label: "Contract", value: "Unverified", ok: false },
     ],
     summary: "SQUID was one of the most publicised crypto scams of 2021, riding the wave of the Netflix series of the same name. It was a textbook honeypot: buyers could purchase tokens freely, but the sell function was secretly disabled in the contract — no one could exit.",
-    why: "The price rose from $0.01 to over $2,860 in days as retail investors piled in, unable to sell. On 1 November 2021, the anonymous creators drained the liquidity pool — approximately $3.38 million — in seconds. The price collapsed to $0.0007 in minutes. Every single red flag was present before the collapse: unverified contract, owner-held majority of supply, no LP lock, and a honeypot sell restriction. A tool like TokenSentry would have flagged this at a score of 95+ before the first buyer lost a cent.",
+    why: "The price rose from $0.01 to over $2,860 in days as retail investors piled in, unable to sell. On 1 November 2021, the anonymous creators drained the liquidity pool — approximately $3.38 million — in seconds. The price collapsed to $0.0007 in minutes. Every single red flag was present before the collapse: unverified contract, owner-held majority of supply, no LP lock, and a honeypot sell restriction. TokenSentry scores this token at 118 pts — well into the Extreme tier — before the first buyer lost a cent.",
   },
   {
     name: "SafeMoon V1",
@@ -140,9 +162,10 @@ export default function ExamplesPage() {
         </p>
         <div className="flex flex-wrap gap-2">
           {[
-            { label: "Low Risk", cls: "border-emerald-700/50 text-emerald-300 bg-emerald-950/30" },
-            { label: "Medium Risk", cls: "border-amber-700/50 text-amber-300 bg-amber-950/30" },
-            { label: "High Risk / Scam", cls: "border-red-700/50 text-red-300 bg-red-950/30" },
+            { label: "Low Risk",          cls: "border-emerald-700/50 text-emerald-300 bg-emerald-950/30" },
+            { label: "Medium Risk",       cls: "border-amber-700/50 text-amber-300 bg-amber-950/30" },
+            { label: "High Risk / Scam",  cls: "border-red-700/50 text-red-300 bg-red-950/30" },
+            { label: "Extreme Risk",      cls: "border-fuchsia-700/60 text-fuchsia-300 bg-fuchsia-950/30" },
           ].map(({ label, cls }) => (
             <span key={label} className={`rounded-full border px-3 py-1 text-xs font-medium ${cls}`}>{label}</span>
           ))}
@@ -152,7 +175,11 @@ export default function ExamplesPage() {
       <div className="space-y-6">
         {examples.map((ex) => {
           const style = riskStyle[ex.risk];
-          const riskLabel = ex.risk === "low" ? "Low Risk" : ex.risk === "medium" ? "Medium Risk" : "High Risk";
+          const riskLabel =
+            ex.risk === "low"     ? "Low Risk"
+            : ex.risk === "medium"  ? "Medium Risk"
+            : ex.risk === "high"    ? "High Risk"
+            : "Extreme Risk";
           return (
             <Card key={ex.ticker} className={`space-y-4 border-2 ${ex.color}`}>
               {/* Header */}

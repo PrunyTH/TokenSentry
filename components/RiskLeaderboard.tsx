@@ -1,12 +1,59 @@
 // Static curated watchlist — highest-scoring known scam tokens
+// Scores are uncapped totals from the TokenSentry heuristic model.
 // This will be replaced with a live DB-backed leaderboard once storage is added.
 
 const ENTRIES = [
-  { rank: 1, name: "AnubisDAO",       ticker: "ANKH",    chain: "ETH",  score: 100, label: "Rug Pull" },
-  { rank: 2, name: "Turtledex",       ticker: "TTDX",    chain: "BNB",  score: 100, label: "Rug Pull" },
-  { rank: 3, name: "Meerkat Finance", ticker: "MEERKAT", chain: "BNB",  score: 100, label: "Rug Pull" },
-  { rank: 4, name: "SQUID Game",      ticker: "SQUID",   chain: "BNB",  score: 95,  label: "Honeypot" },
-  { rank: 5, name: "SafeMoon V1",     ticker: "SFMV1",   chain: "BNB",  score: 82,  label: "Fraud"    },
+  {
+    rank: 1,
+    name: "AnubisDAO",
+    ticker: "ANKH",
+    chain: "ETH",
+    score: 185,
+    label: "Rug Pull",
+    // ETH contract address — paste this directly into TokenSentry
+    address: "0x68b0df17a6e8bf5de70b6d3d66ebcf5614d77568",
+    reportPath: "/report/eth/0x68b0df17a6e8bf5de70b6d3d66ebcf5614d77568",
+  },
+  {
+    rank: 2,
+    name: "Turtledex",
+    ticker: "TTDX",
+    chain: "BNB",
+    score: 168,
+    label: "Rug Pull",
+    address: null,
+    reportPath: null,
+  },
+  {
+    rank: 3,
+    name: "Meerkat Finance",
+    ticker: "MEERKAT",
+    chain: "BNB",
+    score: 156,
+    label: "Rug Pull",
+    address: null,
+    reportPath: null,
+  },
+  {
+    rank: 4,
+    name: "SQUID Game Token",
+    ticker: "SQUID",
+    chain: "BNB",
+    score: 118,
+    label: "Honeypot",
+    address: "0x87230146E138d3F296a9a77e497A2A83012e9Bc5",
+    reportPath: "/report/bnb/0x87230146E138d3F296a9a77e497A2A83012e9Bc5",
+  },
+  {
+    rank: 5,
+    name: "SafeMoon V1",
+    ticker: "SFMV1",
+    chain: "BNB",
+    score: 82,
+    label: "Fraud",
+    address: "0x8076C74C5e3F5852037F31Ff0093Eeb8c8ADd8D3",
+    reportPath: "/report/bnb/0x8076C74C5e3F5852037F31Ff0093Eeb8c8ADd8D3",
+  },
 ];
 
 const chainColor: Record<string, string> = {
@@ -37,16 +84,19 @@ export function RiskLeaderboard() {
 
       {/* Rows */}
       <div className="space-y-1">
-        {ENTRIES.map(({ rank, name, ticker, chain, score, label }) => {
-          const barWidth = `${score}%`;
-          return (
+        {ENTRIES.map(({ rank, name, ticker, chain, score, label, reportPath }) => {
+          // Visual bar capped at 100% of the container; score can exceed 100
+          const barWidth = `${Math.min(score, 100)}%`;
+          const isExtreme = score >= 100;
+          const scoreColor = isExtreme ? "text-fuchsia-300" : "text-red-300";
+          const barBg = isExtreme ? "bg-fuchsia-950/50" : "bg-red-950/40";
+          const Row = (
             <div
-              key={ticker}
               className="relative overflow-hidden rounded-lg border border-slate-700/40 bg-slate-900/60 px-2.5 py-1.5"
             >
               {/* Score progress bar behind row */}
               <div
-                className={`absolute inset-y-0 left-0 rounded-lg ${score >= 100 ? "bg-fuchsia-950/50" : "bg-red-950/40"}`}
+                className={`absolute inset-y-0 left-0 rounded-lg ${barBg}`}
                 style={{ width: barWidth }}
                 aria-hidden="true"
               />
@@ -68,18 +118,27 @@ export function RiskLeaderboard() {
                   </div>
                 </div>
                 {/* Score */}
-                <span className={`flex-shrink-0 text-sm font-extrabold ${score >= 100 ? "text-fuchsia-300" : "text-red-300"}`}>
+                <span className={`flex-shrink-0 text-sm font-extrabold ${scoreColor}`}>
                   {score}
                 </span>
               </div>
             </div>
+          );
+
+          return reportPath ? (
+            <a key={ticker} href={reportPath} className="block group hover:opacity-90 transition-opacity" title={`View ${name} report`}>
+              {Row}
+            </a>
+          ) : (
+            <div key={ticker}>{Row}</div>
           );
         })}
       </div>
 
       {/* Footer note */}
       <p className="mt-1.5 text-[9px] text-slate-600">
-        <span className="text-fuchsia-500/70">■</span> 100+ pts = Extreme Risk · no upper cap
+        <span className="text-fuchsia-500/70">■</span> 100+ pts = Extreme Risk · no upper cap ·{" "}
+        <span className="text-slate-600">click row to view report</span>
       </p>
     </div>
   );
