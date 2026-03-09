@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { EvidenceList } from "@/components/EvidenceList";
+import { ReportMarketPanel } from "@/components/ReportMarketPanel";
 import { ScoreBadge } from "@/components/ScoreBadge";
 import { ScoreDetails } from "@/components/ScoreDetails";
 import { RiskReport } from "@/lib/types";
@@ -15,6 +16,7 @@ export function ReportView({ chain, id }: Props) {
   const [report, setReport] = useState<RiskReport | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [shareState, setShareState] = useState<string | null>(null);
 
   useEffect(() => {
     async function run() {
@@ -37,6 +39,58 @@ export function ReportView({ chain, id }: Props) {
     run();
   }, [chain, id]);
 
+  useEffect(() => {
+    if (!shareState) return;
+    const timer = window.setTimeout(() => setShareState(null), 2200);
+    return () => window.clearTimeout(timer);
+  }, [shareState]);
+
+  async function handleShare() {
+    const url = window.location.href;
+    const title = report?.token.name
+      ? `${report.token.name} TokenSentry report`
+      : "TokenSentry report";
+
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title,
+          text: "TokenSentry risk report",
+          url,
+        });
+        setShareState("Share sheet opened.");
+        return;
+      }
+
+      await navigator.clipboard.writeText(url);
+      setShareState("Report link copied.");
+    } catch {
+      setShareState("Could not share this report.");
+    }
+  }
+
+  function handlePrint() {
+    window.print();
+  }
+
+  function handleDownload() {
+    if (!report) return;
+
+    const slug = (report.token.symbol ?? report.token.name ?? report.token.address)
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "");
+    const blob = new Blob([JSON.stringify(report, null, 2)], {
+      type: "application/json;charset=utf-8",
+    });
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.download = `${slug || "tokensentry-report"}.json`;
+    anchor.click();
+    URL.revokeObjectURL(url);
+  }
+
   if (loading) return <p className="text-slate-300">Loading report...</p>;
   if (error) {
     return <p className="panel rounded-xl p-4 text-red-300">{error}</p>;
@@ -52,13 +106,49 @@ export function ReportView({ chain, id }: Props) {
   return (
     <div className="space-y-6">
       <div className="panel rounded-2xl p-5">
-        <h1 className="text-3xl font-bold text-white">{tokenTitle}</h1>
-        <p className="mt-1 text-sm text-slate-400">
-          Generated: {new Date(report.generatedAt).toLocaleString()}
-        </p>
+        <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+          <div>
+            <h1 className="text-3xl font-bold text-white">{tokenTitle}</h1>
+            <p className="mt-1 text-sm text-slate-400">
+              Generated: {new Date(report.generatedAt).toLocaleString()}
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <button
+              type="button"
+              onClick={handleShare}
+              className="rounded-xl border border-slate-700 bg-slate-900/70 px-3 py-2 text-sm text-slate-200 transition-colors hover:border-sky-400/50 hover:text-white"
+            >
+              Share report
+            </button>
+            <button
+              type="button"
+              onClick={handlePrint}
+              className="rounded-xl border border-slate-700 bg-slate-900/70 px-3 py-2 text-sm text-slate-200 transition-colors hover:border-sky-400/50 hover:text-white"
+            >
+              Save PDF
+            </button>
+            <button
+              type="button"
+              onClick={handleDownload}
+              className="rounded-xl border border-slate-700 bg-slate-900/70 px-3 py-2 text-sm text-slate-200 transition-colors hover:border-sky-400/50 hover:text-white"
+            >
+              Download JSON
+            </button>
+          </div>
+        </div>
+        {shareState ? (
+          <p className="mt-3 text-sm text-sky-300">{shareState}</p>
+        ) : null}
       </div>
 
       <ScoreBadge score={report.score} category={report.category} />
+
+      <ReportMarketPanel
+        chain={report.chain}
+        address={report.token.address}
+        tokenName={report.token.name}
+      />
 
       <section className="panel rounded-2xl p-5">
         <h2 className="mb-3 text-xl font-semibold text-white">Evidence</h2>

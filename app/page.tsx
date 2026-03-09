@@ -1,4 +1,5 @@
 import { InputForm } from "@/components/InputForm";
+import { HeroMarketPanel } from "@/components/HeroMarketPanel";
 import { Card } from "@/components/ui/Card";
 
 const features = [
@@ -49,21 +50,26 @@ export default function HomePage() {
     <div className="space-y-10">
       {/* Hero */}
       <section className="relative rounded-3xl border border-white/10 bg-slate-950/80 px-6 py-12 md:px-10 md:py-14">
-        <h1 className="text-[2.2rem] font-extrabold leading-tight text-white md:text-[3.2rem] lg:text-[3.8rem]">
-          On-Chain Crypto Risk Intelligence
-        </h1>
-        <p className="mt-4 text-sm text-slate-300 md:text-base">
-          Scan any token for honeypots, rug pulls, and smart contract red flags across 8 blockchains — in seconds, for free.
-        </p>
-        <div className="mt-8">
-          <InputForm />
+        <div className="grid gap-8 lg:grid-cols-[minmax(0,1.1fr)_440px] lg:items-center">
+          <div className="max-w-2xl">
+            <h1 className="text-[2.2rem] font-extrabold leading-tight text-white md:text-[3.2rem] lg:text-[3.8rem]">
+              On-Chain Crypto Risk Intelligence
+            </h1>
+            <p className="mt-4 text-sm text-slate-300 md:text-base">
+              Scan any token for honeypots, rug pulls, and smart contract red flags across 8 blockchains, in seconds, for free.
+            </p>
+            <div className="mt-8 max-w-xl">
+              <InputForm />
+            </div>
+            <p className="mt-4 text-xs text-slate-500">
+              New to crypto?{" "}
+              <a href="/learn" className="text-sky-400 hover:text-sky-300">
+                Learn what these checks mean →
+              </a>
+            </p>
+          </div>
+          <HeroMarketPanel />
         </div>
-        <p className="mt-4 text-xs text-slate-500">
-          New to crypto?{" "}
-          <a href="/learn" className="text-sky-400 hover:text-sky-300">
-            Learn what these checks mean →
-          </a>
-        </p>
       </section>
 
       {/* Feature grid */}
