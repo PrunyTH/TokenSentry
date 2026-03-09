@@ -15,6 +15,24 @@ const checks = [
   "Holder concentration and ownership review",
 ];
 
+const partners = [
+  {
+    name: "Coinbase Affiliate",
+    href: "https://www.coinbase.com/affiliates",
+    desc: "Useful if you want a mainstream exchange referral aligned with beginner-friendly crypto education.",
+  },
+  {
+    name: "Ledger Affiliate",
+    href: "https://affiliate.ledger.com/",
+    desc: "Strong fit for TokenSentry because the site already leans into security and self-custody messaging.",
+  },
+  {
+    name: "Awin Publishers",
+    href: "https://www.awin.com/us/publishers",
+    desc: "Good umbrella network if you want to test broader finance, software, or security affiliate partners.",
+  },
+];
+
 export default function ReportLandingPage() {
   return (
     <div className="space-y-8">
@@ -50,31 +68,25 @@ export default function ReportLandingPage() {
         </Card>
 
         <Card>
-          <p className="text-xs uppercase tracking-wide text-slate-400">Direct links</p>
-          <h2 className="mt-2 text-2xl font-bold text-white">Use this page as the main scan entrypoint</h2>
+          <p className="text-xs uppercase tracking-wide text-slate-400">Revenue options</p>
+          <h2 className="mt-2 text-2xl font-bold text-white">Potential partner programs for TokenSentry</h2>
           <p className="mt-3 text-sm text-slate-300">
-            Good for ads, social links, and homepage call-to-action buttons where you want users to land directly
-            on the analyzer.
+            These are practical starting points if you want to monetize without turning the site into an ad-heavy
+            directory.
           </p>
           <div className="mt-5 space-y-3 text-sm">
-            <a
-              href="/"
-              className="block rounded-2xl border border-slate-700/60 bg-slate-900/60 px-4 py-3 text-slate-200 transition-colors hover:border-sky-400/50 hover:text-white"
-            >
-              Back to homepage
-            </a>
-            <a
-              href="/methodology"
-              className="block rounded-2xl border border-slate-700/60 bg-slate-900/60 px-4 py-3 text-slate-200 transition-colors hover:border-sky-400/50 hover:text-white"
-            >
-              Review methodology
-            </a>
-            <a
-              href="/examples"
-              className="block rounded-2xl border border-slate-700/60 bg-slate-900/60 px-4 py-3 text-slate-200 transition-colors hover:border-sky-400/50 hover:text-white"
-            >
-              See example reports
-            </a>
+            {partners.map((partner) => (
+              <a
+                key={partner.name}
+                href={partner.href}
+                target="_blank"
+                rel="noreferrer"
+                className="block rounded-2xl border border-slate-700/60 bg-slate-900/60 px-4 py-3 text-slate-200 transition-colors hover:border-sky-400/50 hover:text-white"
+              >
+                <p className="font-semibold text-white">{partner.name}</p>
+                <p className="mt-1 text-slate-400">{partner.desc}</p>
+              </a>
+            ))}
           </div>
         </Card>
       </section>
