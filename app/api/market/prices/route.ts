@@ -1,17 +1,29 @@
 import { NextResponse } from "next/server";
 
+const coingeckoBase = process.env.COINGECKO_BASE_URL ?? "https://api.coingecko.com/api/v3";
+
 export async function GET() {
   try {
-    const url =
-      "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,binancecoin&vs_currencies=usd&include_24hr_change=true";
-    const res = await fetch(url, { next: { revalidate: 60 } });
+    const url = new URL(`${coingeckoBase}/coins/markets`);
+    url.searchParams.set("vs_currency", "usd");
+    url.searchParams.set("ids", "bitcoin,ethereum,solana,binancecoin");
+    url.searchParams.set("sparkline", "true");
+    url.searchParams.set("price_change_percentage", "24h");
+
+    const res = await fetch(url.toString(), {
+      next: { revalidate: 60 },
+      headers: { accept: "application/json" },
+    });
     if (!res.ok) {
       return NextResponse.json({ error: "upstream unavailable" }, { status: 502 });
     }
-    const data = (await res.json()) as Record<
-      string,
-      { usd?: number; usd_24h_change?: number }
-    >;
+    const data = (await res.json()) as Array<{
+      id?: string;
+      current_price?: number;
+      price_change_percentage_24h_in_currency?: number;
+    }>;
+
+    const byId = new Map(data.map((row) => [row.id, row]));
 
     const prices = [
       { symbol: "BTC", id: "bitcoin" },
@@ -21,10 +33,10 @@ export async function GET() {
     ]
       .map((x) => ({
         symbol: x.symbol as "BTC" | "ETH" | "SOL" | "BNB",
-        priceUsd: Number(data[x.id]?.usd ?? NaN),
+        priceUsd: Number(byId.get(x.id)?.current_price ?? NaN),
         change24h:
-          typeof data[x.id]?.usd_24h_change === "number"
-            ? Number(data[x.id].usd_24h_change)
+          typeof byId.get(x.id)?.price_change_percentage_24h_in_currency === "number"
+            ? Number(byId.get(x.id)?.price_change_percentage_24h_in_currency)
             : null,
       }))
       .filter((x) => Number.isFinite(x.priceUsd));
