@@ -182,13 +182,37 @@ a {
 }
 
 /* ── Brand logo SVG (inline) ── */
+.brand-logo-link {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  border-radius: 999px;
+}
+
+.brand-logo-link::after {
+  content: "";
+  position: absolute;
+  inset: -18% -30%;
+  background: linear-gradient(
+    105deg,
+    transparent 38%,
+    rgba(255, 255, 255, 0.04) 46%,
+    rgba(125, 211, 252, 0.28) 50%,
+    rgba(255, 255, 255, 0.06) 54%,
+    transparent 62%
+  );
+  transform: translateX(-155%) skewX(-18deg);
+  pointer-events: none;
+  mix-blend-mode: screen;
+  animation: logo-sweep 8.5s ease-in-out infinite;
+}
+
 .brand-logo-svg {
   height: 42px;
   width: auto;
   display: block;
   filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.14));
   transition: filter 260ms ease, transform 260ms ease;
-  animation: logo-pulse 5.4s ease-in-out infinite;
 }
 
 .group:hover .brand-logo-svg {
@@ -197,13 +221,22 @@ a {
   transform: translateY(-1px);
 }
 
-@keyframes logo-pulse {
-  0%, 60%, 100% {
-    filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.14));
+@keyframes logo-sweep {
+  0%,
+  72%,
+  100% {
+    transform: translateX(-155%) skewX(-18deg);
+    opacity: 0;
   }
-  75% {
-    filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.38))
-      drop-shadow(0 0 8px rgba(0, 191, 255, 0.2));
+  76% {
+    opacity: 0.92;
+  }
+  87% {
+    transform: translateX(155%) skewX(-18deg);
+    opacity: 0.92;
+  }
+  90% {
+    opacity: 0;
   }
 }
 
@@ -215,6 +248,10 @@ a {
   .brand-logo-svg {
     animation: none;
     transition: none;
+  }
+  .brand-logo-link::after {
+    animation: none;
+    opacity: 0;
   }
   .hero-bg-image,
   .hero-bg-glow,

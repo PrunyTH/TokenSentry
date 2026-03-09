@@ -78,7 +78,7 @@ export default function RootLayout({
         {/* ── Left sidebar – locked in place ── */}
         <aside className="sidebar-nav">
           <div className="sidebar-logo-area">
-            <a href="/" className="group block">
+            <a href="/" className="group brand-logo-link block">
               <BrandLogo className="brand-logo-svg" />
             </a>
           </div>
