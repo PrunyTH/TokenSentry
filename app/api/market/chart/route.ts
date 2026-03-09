@@ -23,30 +23,58 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const interval = days === "1" ? "hourly" : "daily";
-    const url = `${coingeckoBase}/coins/${ASSETS[asset].id}/market_chart?vs_currency=usd&days=${days}&interval=${interval}`;
-    const res = await fetch(url, { next: { revalidate: 60 } });
+    const marketsUrl = new URL(`${coingeckoBase}/coins/markets`);
+    marketsUrl.searchParams.set("vs_currency", "usd");
+    marketsUrl.searchParams.set("ids", ASSETS[asset].id);
+    marketsUrl.searchParams.set("sparkline", "true");
+    marketsUrl.searchParams.set("price_change_percentage", "24h");
+
+    const res = await fetch(marketsUrl.toString(), {
+      next: { revalidate: 60 },
+      headers: {
+        accept: "application/json",
+      },
+    });
 
     if (!res.ok) {
       return NextResponse.json({ error: "upstream unavailable" }, { status: 502 });
     }
 
-    const data = (await res.json()) as {
-      prices?: [number, number][];
-    };
+    const data = (await res.json()) as Array<{
+      current_price?: number;
+      price_change_percentage_24h_in_currency?: number;
+      sparkline_in_7d?: {
+        price?: number[];
+      };
+    }>;
 
-    const points = (data.prices ?? [])
-      .filter((point) => Array.isArray(point) && Number.isFinite(point[0]) && Number.isFinite(point[1]))
-      .map(([time, price]) => ({ time, price }));
+    const market = data[0];
+    const sparkline = (market?.sparkline_in_7d?.price ?? []).filter((value) =>
+      Number.isFinite(value)
+    );
+
+    const series = days === "1" ? sparkline.slice(-24) : sparkline;
+    const now = Date.now();
+    const intervalMs =
+      series.length > 1 ? Math.floor((Number(days) * 24 * 60 * 60 * 1000) / (series.length - 1)) : 0;
+    const points = series.map((price, index) => ({
+      time: now - intervalMs * (series.length - 1 - index),
+      price,
+    }));
 
     if (points.length < 2) {
       return NextResponse.json({ error: "insufficient chart data" }, { status: 502 });
     }
 
     const prices = points.map((point) => point.price);
-    const first = prices[0];
-    const last = prices[prices.length - 1];
-    const changePct = first ? ((last - first) / first) * 100 : 0;
+    const first = prices[0] ?? 0;
+    const last = Number(market?.current_price ?? prices[prices.length - 1] ?? 0);
+    const changePct =
+      typeof market?.price_change_percentage_24h_in_currency === "number"
+        ? market.price_change_percentage_24h_in_currency
+        : first
+          ? ((last - first) / first) * 100
+          : 0;
 
     return NextResponse.json({
       asset,

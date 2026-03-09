@@ -50,15 +50,15 @@ export default function HomePage() {
     <div className="space-y-10">
       {/* Hero */}
       <section className="relative rounded-3xl border border-white/10 bg-slate-950/80 px-6 py-12 md:px-10 md:py-14">
-        <div className="grid gap-8 lg:grid-cols-[minmax(0,1.1fr)_440px] lg:items-center">
-          <div className="max-w-2xl">
+        <div className="grid gap-8 lg:grid-cols-4 lg:items-center">
+          <div className="lg:col-span-3">
             <h1 className="text-[2.2rem] font-extrabold leading-tight text-white md:text-[3.2rem] lg:text-[3.8rem]">
               On-Chain Crypto Risk Intelligence
             </h1>
             <p className="mt-4 text-sm text-slate-300 md:text-base">
               Scan any token for honeypots, rug pulls, and smart contract red flags across 8 blockchains, in seconds, for free.
             </p>
-            <div className="mt-8 max-w-xl">
+            <div className="mt-8">
               <InputForm />
             </div>
             <p className="mt-4 text-xs text-slate-500">
@@ -68,7 +68,9 @@ export default function HomePage() {
               </a>
             </p>
           </div>
-          <HeroMarketPanel />
+          <div className="lg:col-span-1">
+            <HeroMarketPanel />
+          </div>
         </div>
       </section>
 
