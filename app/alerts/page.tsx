@@ -5,6 +5,10 @@ export const metadata: Metadata = {
   title: "Alerts and Watchlists | TokenSentry",
   description:
     "Configure watchlists and token risk alerts for TokenSentry. Choose your own thresholds, delivery channels, and monitoring frequency.",
+  robots: {
+    index: false,
+    follow: false,
+  },
 };
 
 export default function AlertsPage() {
