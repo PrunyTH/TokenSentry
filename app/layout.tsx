@@ -88,6 +88,7 @@ export default function RootLayout({
           <nav className="sidebar-links">
             {[
               { href: "/",            label: "Home" },
+              { href: "/alerts",      label: "Alerts" },
               { href: "/report",      label: "Report" },
               { href: "/about",       label: "About" },
               { href: "/methodology", label: "Methodology" },
