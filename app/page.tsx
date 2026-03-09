@@ -50,7 +50,7 @@ export default function HomePage() {
     <div className="space-y-10">
       {/* Hero */}
       <section className="relative rounded-3xl border border-white/10 bg-slate-950/80 px-6 py-12 md:px-10 md:py-14">
-        <div className="grid gap-8 lg:grid-cols-4 lg:items-center">
+        <div className="grid gap-8 lg:grid-cols-4 lg:items-start">
           <div className="lg:col-span-3">
             <h1 className="text-[2.2rem] font-extrabold leading-tight text-white md:text-[3.2rem] lg:text-[3.8rem]">
               On-Chain Crypto Risk Intelligence

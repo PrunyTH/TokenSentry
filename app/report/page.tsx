@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { InputForm } from "@/components/InputForm";
-import { HeroMarketPanel } from "@/components/HeroMarketPanel";
 import { Card } from "@/components/ui/Card";
 
 export const metadata: Metadata = {
@@ -20,23 +19,16 @@ export default function ReportLandingPage() {
   return (
     <div className="space-y-8">
       <section className="rounded-3xl border border-white/10 bg-slate-950/80 px-6 py-10 md:px-10 md:py-12">
-        <div className="grid gap-8 lg:grid-cols-4 lg:items-center">
-          <div className="lg:col-span-3">
-            <p className="text-xs uppercase tracking-[0.35em] text-sky-300/70">Run a report</p>
-            <h1 className="mt-3 text-[2.1rem] font-extrabold leading-tight text-white md:text-[3rem]">
-              Paste a token and get the risk report immediately
-            </h1>
-            <p className="mt-4 max-w-3xl text-sm text-slate-300 md:text-base">
-              This page is focused on one job: getting you from token name or address to the full TokenSentry
-              report as fast as possible.
-            </p>
-            <div className="mt-8">
-              <InputForm />
-            </div>
-          </div>
-          <div className="lg:col-span-1">
-            <HeroMarketPanel />
-          </div>
+        <p className="text-xs uppercase tracking-[0.35em] text-sky-300/70">Run a report</p>
+        <h1 className="mt-3 text-[2.1rem] font-extrabold leading-tight text-white md:text-[3rem]">
+          Paste a token and get the risk report immediately
+        </h1>
+        <p className="mt-4 max-w-3xl text-sm text-slate-300 md:text-base">
+          This page is focused on one job: getting you from token name or address to the full TokenSentry
+          report as fast as possible.
+        </p>
+        <div className="mt-8 max-w-4xl">
+          <InputForm />
         </div>
       </section>
 
