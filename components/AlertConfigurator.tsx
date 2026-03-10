@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/Input";
 type Channel = "email" | "browser" | "telegram" | "discord" | "webhook";
 type Frequency = "1m" | "5m" | "15m" | "1h";
 type ScoreRule = "up" | "down" | "any";
+type AuthMode = "signin" | "create";
 
 const channelOptions: Array<{
   id: Channel;
@@ -32,7 +33,17 @@ const eventOptions = [
   { id: "data", label: "Data quality degrades", desc: "Useful if you rely on specific upstream checks." },
 ];
 
+const sampleWatchlist = [
+  { token: "PEPE", chain: "Ethereum", status: "Monitoring", note: "Notify on risk jump > 10 pts" },
+  { token: "BONK", chain: "Solana", status: "Monitoring", note: "Telegram alerts for liquidity drops" },
+  { token: "WIF", chain: "Solana", status: "Paused", note: "Muted until volatility settles" },
+];
+
 export function AlertConfigurator() {
+  const [authMode, setAuthMode] = useState<AuthMode>("signin");
+  const [signedIn, setSignedIn] = useState(false);
+  const [password, setPassword] = useState("");
+  const [workspaceName, setWorkspaceName] = useState("Richard's alert desk");
   const [email, setEmail] = useState("");
   const [channels, setChannels] = useState<Channel[]>(["email"]);
   const [frequency, setFrequency] = useState<Frequency>("5m");
@@ -85,6 +96,166 @@ export function AlertConfigurator() {
 
   return (
     <div className="space-y-6">
+      <section className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_380px]">
+        <Card>
+          <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+            <div>
+              <p className="text-xs uppercase tracking-[0.32em] text-sky-300/70">Private access</p>
+              <h2 className="mt-3 text-3xl font-bold text-white">Each user gets their own alert workspace</h2>
+              <p className="mt-3 max-w-3xl text-sm text-slate-300 md:text-base">
+                This should feel like a private control room, not a public calculator. Users sign in, keep their
+                watched tokens, and adjust notification rules over time without rebuilding everything from scratch.
+              </p>
+            </div>
+            <div className="flex gap-2">
+              <button
+                type="button"
+                onClick={() => setAuthMode("signin")}
+                className={`rounded-xl border px-3 py-2 text-sm ${
+                  authMode === "signin"
+                    ? "border-sky-400/60 bg-sky-400/10 text-sky-100"
+                    : "border-slate-700 bg-slate-900/55 text-slate-300"
+                }`}
+              >
+                Sign in
+              </button>
+              <button
+                type="button"
+                onClick={() => setAuthMode("create")}
+                className={`rounded-xl border px-3 py-2 text-sm ${
+                  authMode === "create"
+                    ? "border-sky-400/60 bg-sky-400/10 text-sky-100"
+                    : "border-slate-700 bg-slate-900/55 text-slate-300"
+                }`}
+              >
+                Create account
+              </button>
+            </div>
+          </div>
+
+          <div className="mt-8 grid gap-5 lg:grid-cols-[minmax(0,1fr)_320px]">
+            <div className="rounded-3xl border border-slate-700/60 bg-slate-950/60 p-5">
+              <div className="grid gap-4 md:grid-cols-2">
+                <div>
+                  <label className="text-xs uppercase tracking-[0.22em] text-slate-500">
+                    {authMode === "signin" ? "Email address" : "Work email"}
+                  </label>
+                  <Input
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="name@example.com"
+                    className="mt-2"
+                  />
+                </div>
+                <div>
+                  <label className="text-xs uppercase tracking-[0.22em] text-slate-500">
+                    {authMode === "signin" ? "Password" : "Create password"}
+                  </label>
+                  <Input
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder={authMode === "signin" ? "Enter your password" : "Minimum 12 characters"}
+                    className="mt-2"
+                  />
+                </div>
+              </div>
+
+              {authMode === "create" ? (
+                <div className="mt-4 grid gap-4 md:grid-cols-2">
+                  <div>
+                    <label className="text-xs uppercase tracking-[0.22em] text-slate-500">Workspace name</label>
+                    <Input
+                      value={workspaceName}
+                      onChange={(e) => setWorkspaceName(e.target.value)}
+                      placeholder="My TokenSentry desk"
+                      className="mt-2"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-xs uppercase tracking-[0.22em] text-slate-500">Primary channel</label>
+                    <div className="mt-2 rounded-xl border border-slate-700 bg-slate-900/55 px-4 py-3 text-sm text-slate-300">
+                      Email first, then connect Telegram / Discord / webhooks later
+                    </div>
+                  </div>
+                </div>
+              ) : null}
+
+              <div className="mt-5 flex flex-wrap gap-3">
+                <Button type="button" onClick={() => setSignedIn(true)}>
+                  {authMode === "signin" ? "Enter workspace" : "Create workspace"}
+                </Button>
+                <Button type="button" variant="secondary">
+                  Continue with magic link
+                </Button>
+              </div>
+
+              <div className="mt-5 grid gap-3 sm:grid-cols-3">
+                <div className="rounded-2xl border border-slate-700/60 bg-slate-900/55 p-4">
+                  <p className="text-xs uppercase tracking-[0.2em] text-slate-500">Saved presets</p>
+                  <p className="mt-2 text-lg font-semibold text-white">4</p>
+                </div>
+                <div className="rounded-2xl border border-slate-700/60 bg-slate-900/55 p-4">
+                  <p className="text-xs uppercase tracking-[0.2em] text-slate-500">Watched tokens</p>
+                  <p className="mt-2 text-lg font-semibold text-white">12</p>
+                </div>
+                <div className="rounded-2xl border border-slate-700/60 bg-slate-900/55 p-4">
+                  <p className="text-xs uppercase tracking-[0.2em] text-slate-500">Alert channels</p>
+                  <p className="mt-2 text-lg font-semibold text-white">3 active</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="rounded-3xl border border-slate-700/60 bg-[radial-gradient(circle_at_top,rgba(226,201,141,0.18),transparent_46%),linear-gradient(180deg,rgba(15,23,42,0.92),rgba(2,6,23,0.96))] p-5">
+              <p className="text-xs uppercase tracking-[0.22em] text-[#E2C98D]">Workspace preview</p>
+              <h3 className="mt-2 text-xl font-bold text-white">
+                {signedIn ? workspaceName || "Private alert workspace" : "What the user sees after login"}
+              </h3>
+              <div className="mt-5 space-y-3">
+                {sampleWatchlist.map((item) => (
+                  <div key={item.token} className="rounded-2xl border border-slate-700/60 bg-slate-950/55 p-4">
+                    <div className="flex items-center justify-between gap-3">
+                      <div>
+                        <p className="font-semibold text-white">{item.token}</p>
+                        <p className="text-sm text-slate-400">{item.chain}</p>
+                      </div>
+                      <span
+                        className={`rounded-full px-3 py-1 text-xs font-medium ${
+                          item.status === "Monitoring"
+                            ? "bg-emerald-500/15 text-emerald-200"
+                            : "bg-amber-500/15 text-amber-200"
+                        }`}
+                      >
+                        {item.status}
+                      </span>
+                    </div>
+                    <p className="mt-2 text-sm text-slate-300">{item.note}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </Card>
+
+        <Card className="h-fit">
+          <p className="text-xs uppercase tracking-[0.32em] text-slate-400">Account model</p>
+          <div className="mt-4 space-y-3 text-sm">
+            <div className="rounded-2xl border border-slate-700/60 bg-slate-900/60 p-4">
+              <p className="text-slate-400">Access</p>
+              <p className="mt-1 font-medium text-white">Email + password or magic link</p>
+            </div>
+            <div className="rounded-2xl border border-slate-700/60 bg-slate-900/60 p-4">
+              <p className="text-slate-400">Private area contents</p>
+              <p className="mt-1 font-medium text-white">Watchlists, channels, billing, alert history</p>
+            </div>
+            <div className="rounded-2xl border border-slate-700/60 bg-slate-900/60 p-4">
+              <p className="text-slate-400">Best v1 auth</p>
+              <p className="mt-1 font-medium text-white">Clerk or Supabase Auth</p>
+            </div>
+          </div>
+        </Card>
+      </section>
+
       <section className="grid gap-6 xl:grid-cols-[minmax(0,1.15fr)_360px]">
         <Card>
           <p className="text-xs uppercase tracking-[0.32em] text-sky-300/70">Alert builder</p>
