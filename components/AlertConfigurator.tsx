@@ -39,6 +39,55 @@ const sampleWatchlist = [
   { token: "WIF", chain: "Solana", status: "Paused", note: "Muted until volatility settles" },
 ];
 
+const tokenLibrary = [
+  { token: "PEPE", chain: "Ethereum", savedAt: "2 days ago", alerts: 3, category: "Medium" },
+  { token: "BONK", chain: "Solana", savedAt: "5 days ago", alerts: 2, category: "Medium" },
+  { token: "WIF", chain: "Solana", savedAt: "1 week ago", alerts: 1, category: "High" },
+  { token: "AERO", chain: "Base", savedAt: "9 days ago", alerts: 4, category: "Low" },
+];
+
+const configuredAlerts = [
+  {
+    name: "Risk worsens fast",
+    scope: "All watched tokens",
+    channel: "Email + Browser push",
+    rule: "Send when score worsens by 10+ points in one refresh.",
+  },
+  {
+    name: "Liquidity danger floor",
+    scope: "PEPE, BONK, WIF",
+    channel: "Telegram",
+    rule: "Alert if liquidity falls below $50,000 or drops sharply.",
+  },
+  {
+    name: "Contract-event monitor",
+    scope: "Ethereum and Base",
+    channel: "Webhook",
+    rule: "Notify on honeypot flips, mintability changes, or proxy/owner risk flags.",
+  },
+];
+
+const alertHistory = [
+  {
+    token: "BONK",
+    when: "12 min ago",
+    severity: "high",
+    text: "Liquidity dropped below the user-defined floor and risk score increased by 15 points.",
+  },
+  {
+    token: "AERO",
+    when: "1 h ago",
+    severity: "medium",
+    text: "Risk category moved from Low to Medium after a holder concentration change.",
+  },
+  {
+    token: "PEPE",
+    when: "Yesterday",
+    severity: "low",
+    text: "Price movement triggered monitoring, but no custom risk thresholds were breached.",
+  },
+];
+
 export function AlertConfigurator() {
   const [authMode, setAuthMode] = useState<AuthMode>("signin");
   const [signedIn, setSignedIn] = useState(false);
@@ -431,6 +480,145 @@ export function AlertConfigurator() {
             <Button type="button" variant="secondary">
               View pricing idea
             </Button>
+          </div>
+        </Card>
+      </section>
+
+      <section className="grid gap-6 xl:grid-cols-[minmax(0,1.08fr)_minmax(320px,380px)]">
+        <Card>
+          <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+            <div>
+              <p className="text-xs uppercase tracking-[0.32em] text-sky-300/70">User database</p>
+              <h2 className="mt-3 text-3xl font-bold text-white">Saved tokens and configured alert sets</h2>
+              <p className="mt-3 max-w-3xl text-sm text-slate-300 md:text-base">
+                The private area should store the user&apos;s token universe, their active alert presets, and the
+                history of what actually fired, so they can refine the rules over time.
+              </p>
+            </div>
+            <Button type="button" variant="secondary">
+              Add token to library
+            </Button>
+          </div>
+
+          <div className="mt-6 overflow-hidden rounded-3xl border border-slate-700/60 bg-slate-950/60">
+            <div className="grid grid-cols-[1.3fr_1fr_1fr_1fr_1fr] gap-3 border-b border-slate-800 px-5 py-3 text-xs uppercase tracking-[0.2em] text-slate-500">
+              <span>Token</span>
+              <span>Chain</span>
+              <span>Saved</span>
+              <span>Alerts</span>
+              <span>Risk</span>
+            </div>
+            <div className="divide-y divide-slate-800/80">
+              {tokenLibrary.map((item) => (
+                <div
+                  key={`${item.token}-${item.chain}`}
+                  className="grid grid-cols-[1.3fr_1fr_1fr_1fr_1fr] gap-3 px-5 py-4 text-sm text-slate-200"
+                >
+                  <span className="font-semibold text-white">{item.token}</span>
+                  <span>{item.chain}</span>
+                  <span>{item.savedAt}</span>
+                  <span>{item.alerts}</span>
+                  <span
+                    className={
+                      item.category === "Low"
+                        ? "text-emerald-300"
+                        : item.category === "Medium"
+                          ? "text-amber-300"
+                          : "text-rose-300"
+                    }
+                  >
+                    {item.category}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="mt-6 grid gap-4 lg:grid-cols-3">
+            {configuredAlerts.map((alert) => (
+              <div key={alert.name} className="rounded-2xl border border-slate-700/60 bg-slate-900/60 p-4">
+                <p className="text-sm font-semibold text-white">{alert.name}</p>
+                <p className="mt-2 text-xs uppercase tracking-[0.2em] text-slate-500">Scope</p>
+                <p className="mt-1 text-sm text-slate-300">{alert.scope}</p>
+                <p className="mt-3 text-xs uppercase tracking-[0.2em] text-slate-500">Channel</p>
+                <p className="mt-1 text-sm text-slate-300">{alert.channel}</p>
+                <p className="mt-3 text-xs uppercase tracking-[0.2em] text-slate-500">Rule</p>
+                <p className="mt-1 text-sm text-slate-300">{alert.rule}</p>
+              </div>
+            ))}
+          </div>
+        </Card>
+
+        <Card className="h-fit">
+          <p className="text-xs uppercase tracking-[0.32em] text-slate-400">Alert history</p>
+          <h3 className="mt-3 text-2xl font-bold text-white">Triggered events feed</h3>
+          <div className="mt-5 space-y-3">
+            {alertHistory.map((item) => (
+              <div key={`${item.token}-${item.when}`} className="rounded-2xl border border-slate-700/60 bg-slate-900/60 p-4">
+                <div className="flex items-center justify-between gap-3">
+                  <p className="font-semibold text-white">{item.token}</p>
+                  <span
+                    className={`rounded-full px-3 py-1 text-xs font-medium ${
+                      item.severity === "high"
+                        ? "bg-rose-500/15 text-rose-200"
+                        : item.severity === "medium"
+                          ? "bg-amber-500/15 text-amber-200"
+                          : "bg-sky-500/15 text-sky-200"
+                    }`}
+                  >
+                    {item.when}
+                  </span>
+                </div>
+                <p className="mt-2 text-sm text-slate-300">{item.text}</p>
+              </div>
+            ))}
+          </div>
+        </Card>
+      </section>
+
+      <section className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_360px]">
+        <Card>
+          <p className="text-xs uppercase tracking-[0.32em] text-sky-300/70">Future execution layer</p>
+          <h2 className="mt-3 text-3xl font-bold text-white">Telegram bot can sit on top of the alert engine later</h2>
+          <p className="mt-3 max-w-3xl text-sm text-slate-300 md:text-base">
+            The user space should already anticipate bot-based execution, even if we do not activate it yet. The
+            immediate job is to build a solid watchlist, alert-rule, and alert-history foundation.
+          </p>
+
+          <div className="mt-6 grid gap-4 md:grid-cols-3">
+            <div className="rounded-2xl border border-slate-700/60 bg-slate-900/60 p-4">
+              <p className="text-xs uppercase tracking-[0.2em] text-slate-500">Phase 1</p>
+              <p className="mt-2 font-semibold text-white">Notification-only</p>
+              <p className="mt-2 text-sm text-slate-300">Email, push, Telegram, Discord, webhook. No trading actions.</p>
+            </div>
+            <div className="rounded-2xl border border-slate-700/60 bg-slate-900/60 p-4">
+              <p className="text-xs uppercase tracking-[0.2em] text-slate-500">Phase 2</p>
+              <p className="mt-2 font-semibold text-white">Telegram bot control</p>
+              <p className="mt-2 text-sm text-slate-300">Users subscribe their bot, receive alerts, and acknowledge or mute rules.</p>
+            </div>
+            <div className="rounded-2xl border border-slate-700/60 bg-slate-900/60 p-4">
+              <p className="text-xs uppercase tracking-[0.2em] text-slate-500">Phase 3</p>
+              <p className="mt-2 font-semibold text-white">Trade execution layer</p>
+              <p className="mt-2 text-sm text-slate-300">Only after permissions, auditability, and user controls are fully designed.</p>
+            </div>
+          </div>
+        </Card>
+
+        <Card className="h-fit">
+          <p className="text-xs uppercase tracking-[0.32em] text-slate-400">Telegram readiness</p>
+          <div className="mt-4 space-y-3 text-sm">
+            <div className="rounded-2xl border border-slate-700/60 bg-slate-900/60 p-4">
+              <p className="text-slate-400">Bot status</p>
+              <p className="mt-1 font-medium text-white">Disabled for now</p>
+            </div>
+            <div className="rounded-2xl border border-slate-700/60 bg-slate-900/60 p-4">
+              <p className="text-slate-400">Needed later</p>
+              <p className="mt-1 font-medium text-white">Bot token, user chat mapping, permissioned commands, audit log</p>
+            </div>
+            <div className="rounded-2xl border border-slate-700/60 bg-slate-900/60 p-4">
+              <p className="text-slate-400">Current focus</p>
+              <p className="mt-1 font-medium text-white">Database-backed workspace, saved tokens, alert rules, triggered-event history</p>
+            </div>
           </div>
         </Card>
       </section>
