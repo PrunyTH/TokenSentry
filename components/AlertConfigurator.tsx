@@ -9,6 +9,13 @@ type Channel = "email" | "browser" | "telegram" | "discord" | "webhook";
 type Frequency = "1m" | "5m" | "15m" | "1h";
 type ScoreRule = "up" | "down" | "any";
 type AuthMode = "signin" | "create";
+type WorkspaceSection =
+  | "dashboard"
+  | "tokens"
+  | "rules"
+  | "history"
+  | "credits"
+  | "integrations";
 
 const channelOptions: Array<{
   id: Channel;
@@ -88,8 +95,24 @@ const alertHistory = [
   },
 ];
 
+const dashboardNav: Array<{ id: WorkspaceSection; label: string }> = [
+  { id: "dashboard", label: "Dashboard" },
+  { id: "tokens", label: "Saved Tokens" },
+  { id: "rules", label: "Alert Rules" },
+  { id: "history", label: "Alert History" },
+  { id: "credits", label: "Credits" },
+  { id: "integrations", label: "Integrations" },
+];
+
+const creditPackages = [
+  { name: "Starter", amount: 250, price: "$19", note: "Light monitoring for a small watchlist." },
+  { name: "Active", amount: 1000, price: "$59", note: "Good fit for 5-minute checks across multiple tokens." },
+  { name: "Desk", amount: 3000, price: "$149", note: "Built for larger monitored universes and several channels." },
+];
+
 export function AlertConfigurator() {
   const [authMode, setAuthMode] = useState<AuthMode>("signin");
+  const [workspaceSection, setWorkspaceSection] = useState<WorkspaceSection>("dashboard");
   const [signedIn, setSignedIn] = useState(false);
   const [password, setPassword] = useState("");
   const [workspaceName, setWorkspaceName] = useState("Richard's alert desk");
@@ -142,6 +165,16 @@ export function AlertConfigurator() {
       scoreRule === "up" ? "worsens" : scoreRule === "down" ? "improves" : "changes";
     return `Check watched tokens every ${frequency}. Notify via ${deliverySummary.toLowerCase()} when the risk category changes, when the score ${scoreDirection} by ${scoreDelta}+ points, or when any selected custom trigger fires.`;
   }, [deliverySummary, frequency, scoreDelta, scoreRule]);
+
+  const creditsPerDay = useMemo(() => {
+    const base =
+      frequency === "1m" ? 48 : frequency === "5m" ? 18 : frequency === "15m" ? 8 : 3;
+    const channelMultiplier = Math.max(1, channels.length * 0.75);
+    const eventMultiplier = Math.max(1, selectedEvents.length * 0.35);
+    return Math.ceil(base * channelMultiplier * eventMultiplier);
+  }, [channels.length, frequency, selectedEvents.length]);
+
+  const creditsPerMonth = creditsPerDay * 30;
 
   return (
     <div className="space-y-6">
@@ -482,6 +515,287 @@ export function AlertConfigurator() {
             </Button>
           </div>
         </Card>
+      </section>
+
+      <section className="grid gap-6 xl:grid-cols-[260px_minmax(0,1fr)]">
+        <Card className="h-fit">
+          <p className="text-xs uppercase tracking-[0.32em] text-slate-400">Workspace nav</p>
+          <div className="mt-4 space-y-2">
+            {dashboardNav.map((item) => (
+              <button
+                key={item.id}
+                type="button"
+                onClick={() => setWorkspaceSection(item.id)}
+                className={`flex w-full items-center justify-between rounded-2xl border px-4 py-3 text-left text-sm transition-colors ${
+                  workspaceSection === item.id
+                    ? "border-sky-400/45 bg-sky-400/10 text-white"
+                    : "border-slate-700/60 bg-slate-900/55 text-slate-300 hover:border-slate-500 hover:text-white"
+                }`}
+              >
+                <span>{item.label}</span>
+                <span className="text-xs uppercase tracking-[0.2em] opacity-60">
+                  {item.id === "dashboard"
+                    ? "Home"
+                    : item.id === "tokens"
+                      ? "DB"
+                      : item.id === "rules"
+                        ? "Rules"
+                        : item.id === "history"
+                          ? "Feed"
+                          : item.id === "credits"
+                            ? "Billing"
+                            : "Apps"}
+                </span>
+              </button>
+            ))}
+          </div>
+        </Card>
+
+        <div className="space-y-6">
+          <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+            <Card>
+              <p className="text-xs uppercase tracking-[0.2em] text-slate-500">Credit balance</p>
+              <p className="mt-3 text-3xl font-bold text-white">1,420</p>
+              <p className="mt-2 text-sm text-slate-400">Enough for roughly 23 days at current monitoring settings.</p>
+            </Card>
+            <Card>
+              <p className="text-xs uppercase tracking-[0.2em] text-slate-500">Active watches</p>
+              <p className="mt-3 text-3xl font-bold text-white">12</p>
+              <p className="mt-2 text-sm text-slate-400">9 active, 3 paused across 4 chains.</p>
+            </Card>
+            <Card>
+              <p className="text-xs uppercase tracking-[0.2em] text-slate-500">Alerts today</p>
+              <p className="mt-3 text-3xl font-bold text-white">7</p>
+              <p className="mt-2 text-sm text-slate-400">2 high-severity triggers need review.</p>
+            </Card>
+            <Card>
+              <p className="text-xs uppercase tracking-[0.2em] text-slate-500">Monitoring burn</p>
+              <p className="mt-3 text-3xl font-bold text-white">{creditsPerDay}/day</p>
+              <p className="mt-2 text-sm text-slate-400">{creditsPerMonth} credits estimated over 30 days.</p>
+            </Card>
+          </section>
+
+          <section className="grid gap-6 xl:grid-cols-[minmax(0,1.08fr)_360px]">
+            <Card>
+              <div className="flex items-end justify-between gap-4">
+                <div>
+                  <p className="text-xs uppercase tracking-[0.32em] text-sky-300/70">
+                    {workspaceSection === "dashboard"
+                      ? "Monitoring overview"
+                      : workspaceSection === "tokens"
+                        ? "Saved token database"
+                        : workspaceSection === "rules"
+                          ? "Rule library"
+                          : workspaceSection === "history"
+                            ? "Triggered events"
+                            : workspaceSection === "credits"
+                              ? "Credit system"
+                              : "Integrations"}
+                  </p>
+                  <h2 className="mt-3 text-3xl font-bold text-white">
+                    {workspaceSection === "dashboard"
+                      ? "Continuous monitoring dashboard"
+                      : workspaceSection === "tokens"
+                        ? "Token inventory and watch status"
+                        : workspaceSection === "rules"
+                          ? "Alert rules priced by monitoring intensity"
+                          : workspaceSection === "history"
+                            ? "History of triggered events"
+                            : workspaceSection === "credits"
+                              ? "Buy credits for continuous monitoring"
+                              : "Connected channels and future trading hooks"}
+                  </h2>
+                </div>
+                <Button type="button" variant="secondary">
+                  {workspaceSection === "credits" ? "Top up credits" : "Add new"}
+                </Button>
+              </div>
+
+              {workspaceSection === "dashboard" ? (
+                <div className="mt-6 grid gap-4 lg:grid-cols-[minmax(0,1fr)_320px]">
+                  <div className="rounded-3xl border border-slate-700/60 bg-slate-950/60 p-5">
+                    <p className="text-xs uppercase tracking-[0.2em] text-slate-500">Recent alerts</p>
+                    <div className="mt-4 space-y-3">
+                      {alertHistory.map((item) => (
+                        <div key={`${item.token}-${item.when}`} className="rounded-2xl border border-slate-700/60 bg-slate-900/60 p-4">
+                          <div className="flex items-center justify-between gap-3">
+                            <p className="font-semibold text-white">{item.token}</p>
+                            <span className="text-xs text-slate-400">{item.when}</span>
+                          </div>
+                          <p className="mt-2 text-sm text-slate-300">{item.text}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="space-y-4">
+                    <div className="rounded-3xl border border-slate-700/60 bg-slate-950/60 p-5">
+                      <p className="text-xs uppercase tracking-[0.2em] text-slate-500">Next scheduled checks</p>
+                      <div className="mt-4 space-y-3 text-sm text-slate-300">
+                        <div className="rounded-2xl border border-slate-700/60 bg-slate-900/60 p-4">PEPE {"->"} 2 min</div>
+                        <div className="rounded-2xl border border-slate-700/60 bg-slate-900/60 p-4">BONK {"->"} 3 min</div>
+                        <div className="rounded-2xl border border-slate-700/60 bg-slate-900/60 p-4">AERO {"->"} 5 min</div>
+                      </div>
+                    </div>
+                    <div className="rounded-3xl border border-slate-700/60 bg-slate-950/60 p-5">
+                      <p className="text-xs uppercase tracking-[0.2em] text-slate-500">Why users pay</p>
+                      <p className="mt-3 text-sm text-slate-300">
+                        Credits fund continuous checks, not one-off pings. Faster cadence and more monitored tokens
+                        increase usage in a way the user can understand and control.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ) : null}
+
+              {workspaceSection === "tokens" ? (
+                <div className="mt-6 overflow-hidden rounded-3xl border border-slate-700/60 bg-slate-950/60">
+                  <div className="grid grid-cols-[1.3fr_1fr_1fr_1fr_1fr] gap-3 border-b border-slate-800 px-5 py-3 text-xs uppercase tracking-[0.2em] text-slate-500">
+                    <span>Token</span>
+                    <span>Chain</span>
+                    <span>Saved</span>
+                    <span>Alerts</span>
+                    <span>Risk</span>
+                  </div>
+                  <div className="divide-y divide-slate-800/80">
+                    {tokenLibrary.map((item) => (
+                      <div
+                        key={`${item.token}-${item.chain}`}
+                        className="grid grid-cols-[1.3fr_1fr_1fr_1fr_1fr] gap-3 px-5 py-4 text-sm text-slate-200"
+                      >
+                        <span className="font-semibold text-white">{item.token}</span>
+                        <span>{item.chain}</span>
+                        <span>{item.savedAt}</span>
+                        <span>{item.alerts}</span>
+                        <span
+                          className={
+                            item.category === "Low"
+                              ? "text-emerald-300"
+                              : item.category === "Medium"
+                                ? "text-amber-300"
+                                : "text-rose-300"
+                          }
+                        >
+                          {item.category}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ) : null}
+
+              {workspaceSection === "rules" ? (
+                <div className="mt-6 grid gap-4 lg:grid-cols-3">
+                  {configuredAlerts.map((alert, index) => (
+                    <div key={alert.name} className="rounded-2xl border border-slate-700/60 bg-slate-900/60 p-4">
+                      <p className="text-sm font-semibold text-white">{alert.name}</p>
+                      <p className="mt-2 text-xs uppercase tracking-[0.2em] text-slate-500">Scope</p>
+                      <p className="mt-1 text-sm text-slate-300">{alert.scope}</p>
+                      <p className="mt-3 text-xs uppercase tracking-[0.2em] text-slate-500">Channel</p>
+                      <p className="mt-1 text-sm text-slate-300">{alert.channel}</p>
+                      <p className="mt-3 text-xs uppercase tracking-[0.2em] text-slate-500">Rule</p>
+                      <p className="mt-1 text-sm text-slate-300">{alert.rule}</p>
+                      <p className="mt-3 text-xs uppercase tracking-[0.2em] text-slate-500">Est. cost</p>
+                      <p className="mt-1 text-sm text-[#E2C98D]">{12 + index * 8} credits / day</p>
+                    </div>
+                  ))}
+                </div>
+              ) : null}
+
+              {workspaceSection === "history" ? (
+                <div className="mt-6 space-y-3">
+                  {alertHistory.map((item) => (
+                    <div key={`${item.token}-${item.when}`} className="rounded-2xl border border-slate-700/60 bg-slate-900/60 p-4">
+                      <div className="flex items-center justify-between gap-3">
+                        <div>
+                          <p className="font-semibold text-white">{item.token}</p>
+                          <p className="text-sm text-slate-400">{item.when}</p>
+                        </div>
+                        <span
+                          className={`rounded-full px-3 py-1 text-xs font-medium ${
+                            item.severity === "high"
+                              ? "bg-rose-500/15 text-rose-200"
+                              : item.severity === "medium"
+                                ? "bg-amber-500/15 text-amber-200"
+                                : "bg-sky-500/15 text-sky-200"
+                          }`}
+                        >
+                          {item.severity}
+                        </span>
+                      </div>
+                      <p className="mt-2 text-sm text-slate-300">{item.text}</p>
+                    </div>
+                  ))}
+                </div>
+              ) : null}
+
+              {workspaceSection === "credits" ? (
+                <div className="mt-6 space-y-6">
+                  <div className="grid gap-4 md:grid-cols-3">
+                    <div className="rounded-2xl border border-slate-700/60 bg-slate-900/60 p-4">
+                      <p className="text-xs uppercase tracking-[0.2em] text-slate-500">Current balance</p>
+                      <p className="mt-2 text-2xl font-bold text-white">1,420 credits</p>
+                    </div>
+                    <div className="rounded-2xl border border-slate-700/60 bg-slate-900/60 p-4">
+                      <p className="text-xs uppercase tracking-[0.2em] text-slate-500">Estimated burn</p>
+                      <p className="mt-2 text-2xl font-bold text-white">{creditsPerMonth} / month</p>
+                    </div>
+                    <div className="rounded-2xl border border-slate-700/60 bg-slate-900/60 p-4">
+                      <p className="text-xs uppercase tracking-[0.2em] text-slate-500">Next refill trigger</p>
+                      <p className="mt-2 text-2xl font-bold text-white">Below 300</p>
+                    </div>
+                  </div>
+                  <div className="grid gap-4 lg:grid-cols-3">
+                    {creditPackages.map((pack) => (
+                      <div key={pack.name} className="rounded-3xl border border-slate-700/60 bg-slate-900/60 p-5">
+                        <p className="text-sm font-semibold text-white">{pack.name}</p>
+                        <p className="mt-3 text-3xl font-bold text-[#E2C98D]">{pack.amount}</p>
+                        <p className="mt-1 text-sm text-slate-400">credits</p>
+                        <p className="mt-4 text-2xl font-semibold text-white">{pack.price}</p>
+                        <p className="mt-2 text-sm text-slate-300">{pack.note}</p>
+                        <Button type="button" className="mt-5 w-full">
+                          Buy package
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ) : null}
+
+              {workspaceSection === "integrations" ? (
+                <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+                  {channelOptions.map((option, index) => (
+                    <div key={option.id} className="rounded-2xl border border-slate-700/60 bg-slate-900/60 p-4">
+                      <p className="font-semibold text-white">{option.label}</p>
+                      <p className="mt-2 text-sm text-slate-400">{option.desc}</p>
+                      <p className="mt-4 text-xs uppercase tracking-[0.2em] text-slate-500">Status</p>
+                      <p className="mt-1 text-sm text-slate-200">
+                        {index < 2 ? "Connected in concept" : option.id === "telegram" ? "Planned next" : "Future"}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              ) : null}
+            </Card>
+
+            <Card className="h-fit">
+              <p className="text-xs uppercase tracking-[0.32em] text-slate-400">Monitoring economics</p>
+              <div className="mt-4 space-y-3 text-sm">
+                <div className="rounded-2xl border border-slate-700/60 bg-slate-900/60 p-4">
+                  <p className="text-slate-400">Charging model</p>
+                  <p className="mt-1 font-medium text-white">Credits pay for continuous monitoring, not per alert sent</p>
+                </div>
+                <div className="rounded-2xl border border-slate-700/60 bg-slate-900/60 p-4">
+                  <p className="text-slate-400">Current cadence</p>
+                  <p className="mt-1 font-medium text-white">Every {frequency} across {tokenLibrary.length} saved tokens</p>
+                </div>
+                <div className="rounded-2xl border border-slate-700/60 bg-slate-900/60 p-4">
+                  <p className="text-slate-400">Cost drivers</p>
+                  <p className="mt-1 font-medium text-white">More tokens, faster checks, more channels, richer rules</p>
+                </div>
+              </div>
+            </Card>
+          </section>
+        </div>
       </section>
 
       <section className="grid gap-6 xl:grid-cols-[minmax(0,1.08fr)_minmax(320px,380px)]">
