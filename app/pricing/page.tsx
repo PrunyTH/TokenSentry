@@ -133,6 +133,11 @@ export default function PricingPage() {
           <p className="mt-4 text-sm text-slate-300">
             If you use one-off credit packs only, there is no subscription to cancel; the user just stops buying more.
           </p>
+          <div className="mt-4 rounded-2xl border border-slate-700/60 bg-slate-900/60 p-4 text-sm text-slate-300">
+            Important: if auto top-up is enabled when credits fall below `300`, cancellation must also let the user
+            turn off that auto top-up rule separately. Otherwise the user could stop the subscription but still trigger
+            an automatic refill.
+          </div>
         </Card>
 
         <Card>
@@ -191,6 +196,43 @@ export default function PricingPage() {
             Practical v1 approach: keep using free/public sources for search and report generation, add caching, and
             price monitoring cadence carefully so usage stays within safe limits.
           </p>
+        </Card>
+      </section>
+
+      <section className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_360px]">
+        <Card>
+          <p className="text-xs uppercase tracking-wide text-slate-400">Auto top-up logic</p>
+          <h2 className="mt-2 text-2xl font-bold text-white">Low balance can trigger a refill, but it must stay user-controlled</h2>
+          <div className="mt-5 space-y-3 text-sm text-slate-300">
+            <div className="rounded-2xl border border-slate-700/60 bg-slate-900/60 px-4 py-3">
+              Example rule: when balance drops below `300 credits`, purchase the selected refill pack automatically.
+            </div>
+            <div className="rounded-2xl border border-slate-700/60 bg-slate-900/60 px-4 py-3">
+              The user should be able to enable or disable auto top-up independently from the monitoring plan itself.
+            </div>
+            <div className="rounded-2xl border border-slate-700/60 bg-slate-900/60 px-4 py-3">
+              Cancelling the subscription should prompt: `also disable auto top-up?` and default to yes.
+            </div>
+            <div className="rounded-2xl border border-slate-700/60 bg-slate-900/60 px-4 py-3">
+              Existing credit balance should remain available until consumed, unless your policy says otherwise.
+            </div>
+          </div>
+        </Card>
+
+        <Card>
+          <p className="text-xs uppercase tracking-wide text-slate-400">Product flow</p>
+          <h2 className="mt-2 text-2xl font-bold text-white">Pages should now connect like a product</h2>
+          <div className="mt-4 space-y-3 text-sm text-slate-300">
+            <a href="/report" className="block rounded-2xl border border-slate-700/60 bg-slate-900/60 px-4 py-3 hover:border-sky-400/50 hover:text-white">
+              Report page - start a scan
+            </a>
+            <a href="/alerts" className="block rounded-2xl border border-slate-700/60 bg-slate-900/60 px-4 py-3 hover:border-sky-400/50 hover:text-white">
+              User area - create watches and rules
+            </a>
+            <a href="/pricing" className="block rounded-2xl border border-slate-700/60 bg-slate-900/60 px-4 py-3 hover:border-sky-400/50 hover:text-white">
+              Pricing - understand credits and billing
+            </a>
+          </div>
         </Card>
       </section>
     </div>

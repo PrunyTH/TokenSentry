@@ -103,6 +103,20 @@ export default function RootLayout({
           </nav>
 
           <div className="sidebar-bottom">
+            <div className="mb-4 space-y-2">
+              <a
+                href="/alerts"
+                className="block rounded-2xl border border-sky-400/25 bg-sky-400/10 px-4 py-3 text-sm font-medium text-sky-100 transition-colors hover:border-sky-300/45 hover:text-white"
+              >
+                User area
+              </a>
+              <a
+                href="/pricing"
+                className="block rounded-2xl border border-slate-700/70 bg-slate-900/55 px-4 py-3 text-sm text-slate-200 transition-colors hover:border-slate-500 hover:text-white"
+              >
+                Credits and pricing
+              </a>
+            </div>
             <p className="text-[11px] text-slate-400 leading-relaxed">© {new Date().getFullYear()} TokenSentry</p>
             <p className="text-[10px] text-slate-500 mt-0.5 tracking-wide uppercase">Security Intelligence</p>
           </div>
@@ -115,6 +129,8 @@ export default function RootLayout({
             <div className="flex flex-col gap-4 px-6 py-6 text-sm text-slate-400 md:flex-row md:items-center md:justify-between">
               <p>TokenSentry © {new Date().getFullYear()} — Security Intelligence for Crypto Tokens</p>
               <div className="flex gap-4">
+                <a href="/alerts" className="footer-link">User Area</a>
+                <a href="/pricing" className="footer-link">Pricing</a>
                 <a href="/methodology" className="footer-link">Docs</a>
                 <a href="/learn" className="footer-link">Learn</a>
                 <a href="/examples" className="footer-link">Examples</a>
