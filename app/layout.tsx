@@ -111,10 +111,10 @@ export default function RootLayout({
                 User area
               </a>
               <a
-                href="/pricing"
+                href="/report"
                 className="block rounded-2xl border border-slate-700/70 bg-slate-900/55 px-4 py-3 text-sm text-slate-200 transition-colors hover:border-slate-500 hover:text-white"
               >
-                Credits and pricing
+                Start a report
               </a>
             </div>
             <p className="text-[11px] text-slate-400 leading-relaxed">© {new Date().getFullYear()} TokenSentry</p>
@@ -130,7 +130,7 @@ export default function RootLayout({
               <p>TokenSentry © {new Date().getFullYear()} — Security Intelligence for Crypto Tokens</p>
               <div className="flex gap-4">
                 <a href="/alerts" className="footer-link">User Area</a>
-                <a href="/pricing" className="footer-link">Pricing</a>
+                <a href="/report" className="footer-link">Report</a>
                 <a href="/methodology" className="footer-link">Docs</a>
                 <a href="/learn" className="footer-link">Learn</a>
                 <a href="/examples" className="footer-link">Examples</a>
