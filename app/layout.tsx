@@ -3,7 +3,7 @@ import { Raleway, Montserrat } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 import { HomeMarketPrices } from "@/components/HomeMarketPrices";
-import { CryptoNewsFeed } from "@/components/CryptoNewsFeed";
+import { LatestRiskChanges } from "@/components/LatestRiskChanges";
 import { RiskLeaderboard } from "@/components/RiskLeaderboard";
 import { BrandLogo } from "@/components/BrandLogo";
 
@@ -142,12 +142,12 @@ export default function RootLayout({
           </footer>
         </div>
 
-        {/* ── Right sidebar: market prices + leaderboard + news ── */}
+        {/* ── Right sidebar: market prices + leaderboard + latest risk changes ── */}
         <aside className="right-sidebar">
           <div className="right-sidebar-inner">
             <HomeMarketPrices />
             <RiskLeaderboard />
-            <CryptoNewsFeed />
+            <LatestRiskChanges />
           </div>
         </aside>
 
