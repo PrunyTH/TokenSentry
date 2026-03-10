@@ -110,12 +110,12 @@ export default function RootLayout({
               >
                 User area
               </a>
-              <a
-                href="/report"
-                className="block rounded-2xl border border-slate-700/70 bg-slate-900/55 px-4 py-3 text-sm text-slate-200 transition-colors hover:border-slate-500 hover:text-white"
+              <div
+                aria-disabled="true"
+                className="block cursor-default rounded-2xl border border-slate-700/70 bg-slate-900/55 px-4 py-3 text-sm text-slate-500"
               >
-                Start a report
-              </a>
+                Credits and pricing
+              </div>
             </div>
             <p className="text-[11px] text-slate-400 leading-relaxed">© {new Date().getFullYear()} TokenSentry</p>
             <p className="text-[10px] text-slate-500 mt-0.5 tracking-wide uppercase">Security Intelligence</p>
